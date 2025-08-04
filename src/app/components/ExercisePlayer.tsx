@@ -26,9 +26,9 @@ export default function ExercisePlayer() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: '現在分詞、過去分詞',
-          level: 'TOEIC900点',
-          count: 10,
+          topic: '日常会話、ネイティブ表現',
+          level: 'TOEIC600点',
+          count: 5,
           previousQuestions: questions.map(q => q.japanese),
         }),
       })
