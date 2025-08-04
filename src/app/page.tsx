@@ -1,6 +1,8 @@
 'use client'
 
+import { paths } from '@/lib/paths'
 import { useState } from 'react'
+import { FeedbackDisplay } from './components/FeedbackDisplay'
 
 const sentences = [
   '私は昨日図書館に行きました。',
@@ -8,23 +10,21 @@ const sentences = [
   '彼女は英語を勉強しています。',
 ]
 
-const answers = [
-  'I went to the library yesterday.',
-  'He goes jogging every morning.',
-  'She is studying English.',
-]
-
 export default function Home() {
   const [idx, setIdx] = useState(0)
   const [input, setInput] = useState('')
   const [feedback, setFeedback] = useState<string | null>(null)
 
-  const checkAnswer = () => {
-    if (input.trim() === answers[idx]) {
-      setFeedback('✅ 正解です！')
-    } else {
-      setFeedback(`❌ 不正解です。正解例: "${answers[idx]}"`)
-    }
+  const checkAnswer = async () => {
+    const res = await fetch(paths.app.feedback.path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: sentences[idx], userAnswer: input }),
+    })
+
+    const { feedback } = await res.json()
+
+    setFeedback(feedback)
   }
 
   const next = () => {
@@ -53,8 +53,12 @@ export default function Home() {
             >
               判定する
             </button>
-            {feedback && <div className="mb-4 text-center text-sm">{feedback}</div>}
-            <div className="flex items-center justify-between">
+            {feedback && (
+              <div className="mt-4">
+                <FeedbackDisplay feedback={feedback} />
+              </div>
+            )}
+            <div className="mt-4 flex items-center justify-between">
               <button onClick={next} className="text-blue-500 hover:underline">
                 次へ
               </button>
