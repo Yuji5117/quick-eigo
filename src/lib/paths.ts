@@ -1,7 +1,12 @@
 export const paths = {
   app: {
-    feedback: {
-      path: '/api/feedback',
+    exercise: {
+      generate: {
+        path: '/api/exercise/generate',
+      },
+      feedback: {
+        path: '/api/exercise/feedback',
+      },
     },
   },
 } as const
