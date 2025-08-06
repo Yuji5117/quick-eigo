@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { ENCOURAGEMENT_MESSAGES } from '@/constants/messages'
 
 type Props = {
   totalQuestions: number
@@ -6,16 +7,8 @@ type Props = {
 }
 
 export const ExerciseComplete = ({ totalQuestions, onRestart }: Props) => {
-  const encouragementMessages = [
-    'よくできました！',
-    'お疲れ様でした！',
-    '素晴らしい頑張りです！',
-    '完璧な取り組みでした！',
-    'とても良い調子です！',
-  ]
-
   const randomMessage =
-    encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)]
+    ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)]
 
   return (
     <div className="flex flex-col items-center space-y-6 p-8 text-center">
