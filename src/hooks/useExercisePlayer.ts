@@ -10,6 +10,7 @@ export const useExercisePlayer = () => {
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<string | null>(null)
   const [questionCount, setQuestionCount] = useState(DEFAULT_QUESTION_COUNT)
+  const [isCompleted, setIsCompleted] = useState(false)
 
   const [loadingQuestions, setLoadingQuestions] = useState(false)
   const [loadingFeedback, setLoadingFeedback] = useState(false)
@@ -29,6 +30,7 @@ export const useExercisePlayer = () => {
       setIdx(0)
       setAnswer('')
       setFeedback(null)
+      setIsCompleted(false)
     } catch (e) {
       console.error(e)
     } finally {
@@ -55,10 +57,22 @@ export const useExercisePlayer = () => {
   }, [questions, idx, answer])
 
   const handleNextQuestion = useCallback(() => {
-    setIdx(i => Math.min(i + 1, questions.length - 1))
+    if (idx >= questions.length - 1) {
+      setIsCompleted(true)
+    } else {
+      setIdx(i => i + 1)
+    }
     setAnswer('')
     setFeedback(null)
-  }, [questions.length])
+  }, [idx, questions.length])
+
+  const restartExercise = useCallback(() => {
+    setQuestions([])
+    setIdx(0)
+    setAnswer('')
+    setFeedback(null)
+    setIsCompleted(false)
+  }, [])
 
   return {
     questions,
@@ -70,10 +84,12 @@ export const useExercisePlayer = () => {
     feedback,
     questionCount,
     setQuestionCount,
+    isCompleted,
     loadingQuestions,
     loadingFeedback,
     generateQuestions,
     sendAnswer,
     handleNextQuestion,
+    restartExercise,
   }
 }

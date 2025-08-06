@@ -1,6 +1,6 @@
 'use client'
 
-import { QuestionGenerator, ExerciseSession } from '@/components'
+import { QuestionGenerator, ExerciseSession, ExerciseComplete } from '@/components'
 import { useExercisePlayer } from '@/hooks/useExercisePlayer'
 
 export const ExercisePlayer = () => {
@@ -8,17 +8,24 @@ export const ExercisePlayer = () => {
     questions,
     currentQuestion,
     currentQuestionNumber,
+    totalQuestions,
     answer,
     setAnswer,
     feedback,
     questionCount,
     setQuestionCount,
+    isCompleted,
     loadingQuestions,
     loadingFeedback,
     generateQuestions,
     sendAnswer,
     handleNextQuestion,
+    restartExercise,
   } = useExercisePlayer()
+
+  if (isCompleted) {
+    return <ExerciseComplete totalQuestions={totalQuestions} onRestart={restartExercise} />
+  }
 
   if (questions.length === 0) {
     return (
