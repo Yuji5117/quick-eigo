@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { FeedbackDisplay, Spinner } from '@/components'
+import { Button, FeedbackDisplay, Spinner } from '@/components'
 
 type Question = {
   id: number
@@ -67,12 +67,9 @@ export const ExercisePlayer = () => {
         {loadingQuestions ? (
           <Spinner />
         ) : (
-          <button
-            onClick={generateQuestions}
-            className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-white"
-          >
+          <Button onClick={generateQuestions} className="bg-blue-600">
             問題を生成する
-          </button>
+          </Button>
         )}
       </div>
     )
@@ -95,22 +92,19 @@ export const ExercisePlayer = () => {
         placeholder="英語で入力…"
       />
       <div className="flex space-x-2">
-        <button
-          onClick={sendAnswer}
-          className="flex-1 cursor-pointer rounded bg-green-500 py-2 text-white"
-        >
+        <Button onClick={sendAnswer} className="flex-1 bg-green-500">
           {loadingFeedback ? <Spinner /> : '添削を依頼'}
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => {
             setIdx(i => Math.min(i + 1, questions.length - 1))
             setAnswer('')
             setFeedback(null)
           }}
-          className="flex-1 cursor-pointer rounded bg-gray-200 py-2"
+          className="flex-1 bg-gray-200 text-black"
         >
           次へ
-        </button>
+        </Button>
       </div>
       {feedback && (
         <div className="mt-4">
