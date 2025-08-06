@@ -1,6 +1,7 @@
 export * from './ExercisePlayer'
 export * from './FeedbackDisplay'
 export * from './Spinner'
+export * from './Header'
 export * from './QuestionGenerator'
 export * from './ExerciseSession'
 

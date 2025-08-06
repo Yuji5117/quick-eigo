@@ -1,3 +1,4 @@
+import { Header } from '@/components'
 import type { Metadata } from 'next'
 
 import './globals.css'
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body className="flex min-h-screen flex-col bg-gray-100">
+        <Header />
+        {children}
+      </body>
     </html>
   )
 }
