@@ -1,5 +1,4 @@
-import { Spinner } from './Spinner'
-import { Button } from './ui/Button'
+import { Button, Spinner } from '@/components'
 
 type Props = {
   loading: boolean

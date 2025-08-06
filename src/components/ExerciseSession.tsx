@@ -1,6 +1,5 @@
 import { FeedbackDisplay } from './FeedbackDisplay'
-import { Spinner } from './Spinner'
-import { Button } from './ui'
+import { Button, Spinner } from '@/components'
 
 type Question = {
   id: number

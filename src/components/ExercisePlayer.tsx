@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { QuestionGenerator } from './QuestionGenerator'
-import { ExerciseSession } from './ExerciseSession'
+import { QuestionGenerator, ExerciseSession } from '@/components'
 
 type Question = {
   id: number
