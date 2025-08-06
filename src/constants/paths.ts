@@ -1,11 +1,11 @@
 export const paths = {
   app: {
-    exercise: {
+    exercises: {
       generate: {
-        path: '/api/exercise/generate',
+        path: '/api/exercises/generate',
       },
       feedback: {
-        path: '/api/exercise/feedback',
+        path: '/api/exercises/feedback',
       },
     },
   },
