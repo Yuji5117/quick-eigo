@@ -1,4 +1,5 @@
 import { paths } from '@/constants/paths'
+import { DEFAULT_QUESTION_COUNT } from '@/constants/questionCounts'
 import { api } from '@/lib/client'
 import { useState, useCallback } from 'react'
 
@@ -13,7 +14,7 @@ export const useExercisePlayer = () => {
   const [idx, setIdx] = useState(0)
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<string | null>(null)
-  const [questionCount, setQuestionCount] = useState(5)
+  const [questionCount, setQuestionCount] = useState(DEFAULT_QUESTION_COUNT)
 
   const [loadingQuestions, setLoadingQuestions] = useState(false)
   const [loadingFeedback, setLoadingFeedback] = useState(false)
