@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, FeedbackDisplay, Spinner } from '@/components'
 import { QuestionGenerator } from './QuestionGenerator'
+import { ExerciseSession } from './ExerciseSession'
 
 type Question = {
   id: number
@@ -62,46 +62,35 @@ export const ExercisePlayer = () => {
     }
   }
 
+  const handleNextQuestion = () => {
+    setIdx(i => Math.min(i + 1, questions.length - 1))
+    setAnswer('')
+    setFeedback(null)
+  }
+
   if (questions.length === 0) {
     return <QuestionGenerator loading={loadingQuestions} onGenerate={generateQuestions} />
   }
 
-  const q = questions[idx]
   return (
-    <div className="mx-auto max-w-md space-y-4">
-      <div className="text-gray-800">
-        <strong>
-          {idx + 1}/{questions.length}
-        </strong>{' '}
-        {q.japanese}
-      </div>
-      <input
-        type="text"
-        value={answer}
-        onChange={e => setAnswer(e.target.value)}
-        className="w-full rounded border px-3 py-2"
-        placeholder="英語で入力…"
-      />
-      <div className="flex space-x-2">
-        <Button onClick={sendAnswer} className="flex-1 bg-green-500">
-          {loadingFeedback ? <Spinner /> : '添削を依頼'}
-        </Button>
-        <Button
-          onClick={() => {
-            setIdx(i => Math.min(i + 1, questions.length - 1))
-            setAnswer('')
-            setFeedback(null)
-          }}
-          className="flex-1 bg-gray-200 text-black"
-        >
-          次へ
-        </Button>
-      </div>
-      {feedback && (
-        <div className="mt-4">
-          <FeedbackDisplay feedback={feedback} />
-        </div>
-      )}
-    </div>
+    <ExerciseSession
+      question={{
+        data: questions[idx],
+        number: idx + 1,
+        total: questions.length,
+      }}
+      answer={{
+        value: answer,
+        onChange: setAnswer,
+      }}
+      feedback={{
+        value: feedback,
+        isLoading: loadingFeedback,
+      }}
+      actions={{
+        onSendAnswer: sendAnswer,
+        onNextQuestion: handleNextQuestion,
+      }}
+    />
   )
 }
