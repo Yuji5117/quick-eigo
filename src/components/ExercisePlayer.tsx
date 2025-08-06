@@ -14,6 +14,10 @@ export const ExercisePlayer = () => {
     feedback,
     questionCount,
     setQuestionCount,
+    selectedTopic,
+    setSelectedTopic,
+    selectedLevel,
+    setSelectedLevel,
     isCompleted,
     loadingQuestions,
     loadingFeedback,
@@ -32,7 +36,11 @@ export const ExercisePlayer = () => {
       <QuestionGenerator
         loading={loadingQuestions}
         questionCount={questionCount}
+        selectedTopic={selectedTopic}
+        selectedLevel={selectedLevel}
         onQuestionCountChange={setQuestionCount}
+        onTopicChange={setSelectedTopic}
+        onLevelChange={setSelectedLevel}
         onGenerate={generateQuestions}
       />
     )
