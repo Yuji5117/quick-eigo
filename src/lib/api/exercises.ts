@@ -1,6 +1,7 @@
 import { paths } from '@/constants/paths'
-import { Question } from '../../types/exercise'
+
 import { api } from '../client'
+import { Question } from '@/types'
 
 export const generateQuestions = (
   topic: string,
@@ -8,7 +9,7 @@ export const generateQuestions = (
   count: number,
   previousQuestions: string[],
 ) => {
-  return api.post<{ questions: Question[] }>(paths.app.exercise.generate.path, {
+  return api.post<{ questions: Question[] }>(paths.app.exercises.generate.path, {
     topic,
     level,
     count,
@@ -17,7 +18,7 @@ export const generateQuestions = (
 }
 
 export const getFeedback = (question: Question, userAnswer: string) => {
-  return api.post<{ feedback: string }>(paths.app.exercise.feedback.path, {
+  return api.post<{ feedback: string }>(paths.app.exercises.feedback.path, {
     question,
     userAnswer,
   })

@@ -1,13 +1,8 @@
 import { paths } from '@/constants/paths'
 import { DEFAULT_QUESTION_COUNT } from '@/constants/questionCounts'
 import { api } from '@/lib/client'
+import { Question } from '@/types'
 import { useState, useCallback } from 'react'
-
-type Question = {
-  id: number
-  japanese: string
-  type: 'affirmative' | 'interrogative'
-}
 
 export const useExercisePlayer = () => {
   const [questions, setQuestions] = useState<Question[]>([])
