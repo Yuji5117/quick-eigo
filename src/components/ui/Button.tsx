@@ -8,7 +8,7 @@ export const Button = ({ children, ...props }: ButtonProps) => {
   return (
     <button
       {...props}
-      className={`cursor-pointer rounded py-2 text-white ${props.className || ''}`}
+      className={`cursor-pointer rounded px-4 py-2 text-white ${props.className || ''}`}
     >
       {children}
     </button>
