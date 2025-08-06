@@ -1,6 +1,6 @@
 'use client'
 
-import ExercisePlayer from './components/ExercisePlayer'
+import { ExercisePlayer } from '@/components'
 
 export default function Home() {
   return (

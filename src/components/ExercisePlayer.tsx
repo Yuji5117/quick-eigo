@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { FeedbackDisplay } from './FeedbackDisplay'
-import Spinner from './Spinner'
+import { FeedbackDisplay, Spinner } from '@/components'
 
 type Question = {
   id: number
@@ -10,7 +9,7 @@ type Question = {
   type: 'affirmative' | 'interrogative'
 }
 
-export default function ExercisePlayer() {
+export const ExercisePlayer = () => {
   const [questions, setQuestions] = useState<Question[]>([])
   const [idx, setIdx] = useState(0)
   const [answer, setAnswer] = useState('')
