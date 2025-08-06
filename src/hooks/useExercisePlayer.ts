@@ -1,8 +1,12 @@
 import { paths } from '@/constants/paths'
 import { DEFAULT_QUESTION_COUNT } from '@/constants/questionCounts'
+import { DEFAULT_TOPIC, DEFAULT_LEVEL, TOPICS, LEVELS } from '@/constants/exerciseOptions'
 import { api } from '@/lib/client'
 import { Question } from '@/types'
 import { useState, useCallback } from 'react'
+
+type Topic = (typeof TOPICS)[number]
+type Level = (typeof LEVELS)[number]
 
 export const useExercisePlayer = () => {
   const [questions, setQuestions] = useState<Question[]>([])
@@ -10,6 +14,8 @@ export const useExercisePlayer = () => {
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<string | null>(null)
   const [questionCount, setQuestionCount] = useState(DEFAULT_QUESTION_COUNT)
+  const [selectedTopic, setSelectedTopic] = useState<Topic>(DEFAULT_TOPIC)
+  const [selectedLevel, setSelectedLevel] = useState<Level>(DEFAULT_LEVEL)
   const [isCompleted, setIsCompleted] = useState(false)
 
   const [loadingQuestions, setLoadingQuestions] = useState(false)
@@ -19,8 +25,8 @@ export const useExercisePlayer = () => {
     setLoadingQuestions(true)
     try {
       const res = await api.post<{ questions: Question[] }>(paths.app.exercises.generate.path, {
-        topic: '日常会話、ネイティブ表現',
-        level: 'TOEIC600点',
+        topic: selectedTopic.value,
+        level: selectedLevel.value,
         count: questionCount,
         previousQuestions: questions.map(q => q.japanese),
       })
@@ -36,7 +42,7 @@ export const useExercisePlayer = () => {
     } finally {
       setLoadingQuestions(false)
     }
-  }, [questions, questionCount])
+  }, [questions, questionCount, selectedTopic.value, selectedLevel.value])
 
   const sendAnswer = useCallback(async () => {
     setLoadingFeedback(true)
@@ -84,6 +90,10 @@ export const useExercisePlayer = () => {
     feedback,
     questionCount,
     setQuestionCount,
+    selectedTopic,
+    setSelectedTopic,
+    selectedLevel,
+    setSelectedLevel,
     isCompleted,
     loadingQuestions,
     loadingFeedback,
