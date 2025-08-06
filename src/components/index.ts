@@ -3,6 +3,7 @@ export * from './FeedbackDisplay'
 export * from './Spinner'
 export * from './Header'
 export * from './QuestionGenerator'
+export * from './QuestionCountSelector'
 export * from './ExerciseSession'
 
 export * from './ui'
