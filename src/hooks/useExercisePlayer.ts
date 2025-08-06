@@ -13,6 +13,7 @@ export const useExercisePlayer = () => {
   const [idx, setIdx] = useState(0)
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<string | null>(null)
+  const [questionCount, setQuestionCount] = useState(5)
 
   const [loadingQuestions, setLoadingQuestions] = useState(false)
   const [loadingFeedback, setLoadingFeedback] = useState(false)
@@ -23,7 +24,7 @@ export const useExercisePlayer = () => {
       const res = await api.post<{ questions: Question[] }>(paths.app.exercises.generate.path, {
         topic: '日常会話、ネイティブ表現',
         level: 'TOEIC600点',
-        count: 5,
+        count: questionCount,
         previousQuestions: questions.map(q => q.japanese),
       })
 
@@ -37,7 +38,7 @@ export const useExercisePlayer = () => {
     } finally {
       setLoadingQuestions(false)
     }
-  }, [questions])
+  }, [questions, questionCount])
 
   const sendAnswer = useCallback(async () => {
     setLoadingFeedback(true)
@@ -71,6 +72,8 @@ export const useExercisePlayer = () => {
     answer,
     setAnswer,
     feedback,
+    questionCount,
+    setQuestionCount,
     loadingQuestions,
     loadingFeedback,
     generateQuestions,
