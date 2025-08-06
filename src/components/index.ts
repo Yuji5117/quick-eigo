@@ -4,6 +4,8 @@ export * from './Spinner'
 export * from './Header'
 export * from './QuestionGenerator'
 export * from './QuestionCountSelector'
+export * from './TopicSelector'
+export * from './LevelSelector'
 export * from './ExerciseComplete'
 export * from './ExerciseSession'
 
