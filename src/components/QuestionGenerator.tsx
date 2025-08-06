@@ -1,13 +1,21 @@
-import { Button, Spinner } from '@/components'
+import { Button, Spinner, QuestionCountSelector } from '@/components'
 
 type Props = {
   loading: boolean
+  questionCount: number
+  onQuestionCountChange: (count: number) => void
   onGenerate: () => void
 }
 
-export const QuestionGenerator = ({ loading, onGenerate }: Props) => {
+export const QuestionGenerator = ({
+  loading,
+  questionCount,
+  onQuestionCountChange,
+  onGenerate,
+}: Props) => {
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center">
+      <QuestionCountSelector value={questionCount} onChange={onQuestionCountChange} />
       {loading ? (
         <Spinner />
       ) : (

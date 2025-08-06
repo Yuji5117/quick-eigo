@@ -11,6 +11,8 @@ export const ExercisePlayer = () => {
     answer,
     setAnswer,
     feedback,
+    questionCount,
+    setQuestionCount,
     loadingQuestions,
     loadingFeedback,
     generateQuestions,
@@ -19,7 +21,14 @@ export const ExercisePlayer = () => {
   } = useExercisePlayer()
 
   if (questions.length === 0) {
-    return <QuestionGenerator loading={loadingQuestions} onGenerate={generateQuestions} />
+    return (
+      <QuestionGenerator
+        loading={loadingQuestions}
+        questionCount={questionCount}
+        onQuestionCountChange={setQuestionCount}
+        onGenerate={generateQuestions}
+      />
+    )
   }
 
   return (
