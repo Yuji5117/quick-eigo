@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Button, FeedbackDisplay, Spinner } from '@/components'
+import { QuestionGenerator } from './QuestionGenerator'
 
 type Question = {
   id: number
@@ -62,17 +63,7 @@ export const ExercisePlayer = () => {
   }
 
   if (questions.length === 0) {
-    return (
-      <div className="flex justify-center">
-        {loadingQuestions ? (
-          <Spinner />
-        ) : (
-          <Button onClick={generateQuestions} className="bg-blue-600">
-            問題を生成する
-          </Button>
-        )}
-      </div>
-    )
+    return <QuestionGenerator loading={loadingQuestions} onGenerate={generateQuestions} />
   }
 
   const q = questions[idx]
