@@ -5,10 +5,8 @@ import { ExercisePlayer } from '@/components'
 export default function Home() {
   return (
     <div>
-      <main>
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-          <ExercisePlayer />
-        </div>
+      <main className="px-4 py-8">
+        <ExercisePlayer />
       </main>
       <footer></footer>
     </div>
