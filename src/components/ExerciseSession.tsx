@@ -1,3 +1,4 @@
+import { StructuredFeedback } from '@/types'
 import { FeedbackDisplay } from './FeedbackDisplay'
 import { Button, Spinner } from '@/components'
 
@@ -18,7 +19,7 @@ type Props = {
     onChange: (value: string) => void
   }
   feedback: {
-    value: string | null
+    value: StructuredFeedback | null
     isLoading: boolean
   }
   actions: {
@@ -57,7 +58,11 @@ export const ExerciseSession = ({ question, answer, feedback, actions }: Props) 
       </div>
       {feedback.value && (
         <div className="mt-4">
-          <FeedbackDisplay feedback={feedback.value} />
+          <FeedbackDisplay
+            feedback={feedback.value}
+            question={question.data}
+            userAnswer={answer.value}
+          />
         </div>
       )}
     </div>

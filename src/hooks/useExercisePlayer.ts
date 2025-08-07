@@ -2,7 +2,7 @@ import { paths } from '@/constants/paths'
 import { DEFAULT_QUESTION_COUNT } from '@/constants/questionCounts'
 import { DEFAULT_TOPIC, DEFAULT_LEVEL, TOPICS, LEVELS } from '@/constants/exerciseOptions'
 import { api } from '@/lib/client'
-import { Question } from '@/types'
+import { Question, StructuredFeedback } from '@/types'
 import { useState, useCallback } from 'react'
 
 type Topic = (typeof TOPICS)[number]
@@ -12,7 +12,7 @@ export const useExercisePlayer = () => {
   const [questions, setQuestions] = useState<Question[]>([])
   const [idx, setIdx] = useState(0)
   const [answer, setAnswer] = useState('')
-  const [feedback, setFeedback] = useState<string | null>(null)
+  const [feedback, setFeedback] = useState<StructuredFeedback | null>(null)
   const [questionCount, setQuestionCount] = useState(DEFAULT_QUESTION_COUNT)
   const [selectedTopic, setSelectedTopic] = useState<Topic>(DEFAULT_TOPIC)
   const [selectedLevel, setSelectedLevel] = useState<Level>(DEFAULT_LEVEL)
@@ -48,10 +48,13 @@ export const useExercisePlayer = () => {
     setLoadingFeedback(true)
     try {
       const q = questions[idx]
-      const res = await api.post<{ feedback: string }>(paths.app.exercises.feedback.path, {
-        question: q,
-        userAnswer: answer,
-      })
+      const res = await api.post<{ feedback: StructuredFeedback }>(
+        paths.app.exercises.feedback.path,
+        {
+          question: q,
+          userAnswer: answer,
+        },
+      )
 
       const { feedback } = res
       setFeedback(feedback)

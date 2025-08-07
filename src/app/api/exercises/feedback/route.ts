@@ -1,5 +1,6 @@
 import { openai } from '@/lib/openai'
 import { createFeedbackPrompt } from '@/lib/prompts'
+import { StructuredFeedback } from '@/types'
 import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
@@ -19,8 +20,22 @@ export const POST = async (req: Request) => {
       },
     ],
   })
-  const feedback = completion.choices[0].message?.content ?? ''
-  return NextResponse.json({
-    feedback,
-  })
+
+  const content = completion.choices[0].message?.content ?? '{}'
+  let feedback: StructuredFeedback = {
+    modelAnswer: '',
+    advice: '',
+  }
+
+  try {
+    feedback = JSON.parse(content)
+  } catch (e) {
+    console.error('Failed to parse feedback JSON:', e)
+    feedback = {
+      modelAnswer: '',
+      advice: content,
+    }
+  }
+
+  return NextResponse.json({ feedback })
 }
