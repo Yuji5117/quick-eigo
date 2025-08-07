@@ -6,6 +6,7 @@ export * from './QuestionGenerator'
 export * from './QuestionCountSelector'
 export * from './TopicSelector'
 export * from './LevelSelector'
+export * from './GrammarUnitSelector'
 export * from './ExerciseComplete'
 export * from './ExerciseSession'
 
