@@ -4,9 +4,9 @@ import { createExerciseGenerationPrompt } from '@/lib/prompts'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-  const { topic, level, count, previousQuestions } = await req.json()
+  const { topic, level, grammarUnit, count, previousQuestions } = await req.json()
 
-  const systemPrompt = createExerciseGenerationPrompt({ topic, level, count })
+  const systemPrompt = createExerciseGenerationPrompt({ topic, level, grammarUnit, count })
 
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o',
