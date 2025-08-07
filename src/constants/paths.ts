@@ -7,6 +7,9 @@ export const paths = {
       feedback: {
         path: '/api/exercises/feedback',
       },
+      alternatives: {
+        path: '/api/exercises/alternatives',
+      },
     },
   },
 } as const
