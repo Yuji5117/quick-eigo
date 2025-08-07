@@ -1,12 +1,21 @@
 import { paths } from '@/constants/paths'
 import { DEFAULT_QUESTION_COUNT } from '@/constants/questionCounts'
 import { DEFAULT_TOPIC, DEFAULT_LEVEL, TOPICS, LEVELS } from '@/constants/exerciseOptions'
+import { DEFAULT_GRAMMAR_UNIT } from '@/constants/grammarUnits'
 import { api } from '@/lib/client'
 import { Question, StructuredFeedback } from '@/types'
 import { useState, useCallback } from 'react'
 
 type Topic = (typeof TOPICS)[number]
 type Level = (typeof LEVELS)[number]
+type GrammarUnit = {
+  id: string
+  name: string
+  englishName: string
+  emoji: string
+  description: string
+  value: string
+}
 
 export const useExercisePlayer = () => {
   const [questions, setQuestions] = useState<Question[]>([])
@@ -16,6 +25,7 @@ export const useExercisePlayer = () => {
   const [questionCount, setQuestionCount] = useState(DEFAULT_QUESTION_COUNT)
   const [selectedTopic, setSelectedTopic] = useState<Topic>(DEFAULT_TOPIC)
   const [selectedLevel, setSelectedLevel] = useState<Level>(DEFAULT_LEVEL)
+  const [selectedGrammarUnit, setSelectedGrammarUnit] = useState<GrammarUnit>(DEFAULT_GRAMMAR_UNIT)
   const [isCompleted, setIsCompleted] = useState(false)
 
   const [loadingQuestions, setLoadingQuestions] = useState(false)
@@ -27,6 +37,7 @@ export const useExercisePlayer = () => {
       const res = await api.post<{ questions: Question[] }>(paths.app.exercises.generate.path, {
         topic: selectedTopic.value,
         level: selectedLevel.value,
+        grammarUnit: selectedGrammarUnit.value,
         count: questionCount,
         previousQuestions: questions.map(q => q.japanese),
       })
@@ -42,7 +53,13 @@ export const useExercisePlayer = () => {
     } finally {
       setLoadingQuestions(false)
     }
-  }, [questions, questionCount, selectedTopic.value, selectedLevel.value])
+  }, [
+    questions,
+    questionCount,
+    selectedTopic.value,
+    selectedLevel.value,
+    selectedGrammarUnit.value,
+  ])
 
   const sendAnswer = useCallback(async () => {
     setLoadingFeedback(true)
@@ -97,6 +114,8 @@ export const useExercisePlayer = () => {
     setSelectedTopic,
     selectedLevel,
     setSelectedLevel,
+    selectedGrammarUnit,
+    setSelectedGrammarUnit,
     isCompleted,
     loadingQuestions,
     loadingFeedback,
