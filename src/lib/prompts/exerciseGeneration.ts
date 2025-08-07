@@ -4,7 +4,8 @@ interface ExerciseGenerationParams {
   count: number
 }
 
-export const createExerciseGenerationPrompt = ({ topic, level, count }: ExerciseGenerationParams) => `
+export const createExerciseGenerationPrompt = ({ topic, level, count }: ExerciseGenerationParams) =>
+  `
 あなたはプロの英語問題作成チューターです。
 以下の条件に従って、JSON 配列で瞬間英作文の問題を出力してください。
 ・トピック: ${topic}
