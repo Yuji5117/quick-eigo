@@ -18,6 +18,8 @@ export const ExercisePlayer = () => {
     setSelectedTopic,
     selectedLevel,
     setSelectedLevel,
+    selectedGrammarUnit,
+    setSelectedGrammarUnit,
     isCompleted,
     loadingQuestions,
     loadingFeedback,
@@ -38,9 +40,11 @@ export const ExercisePlayer = () => {
         questionCount={questionCount}
         selectedTopic={selectedTopic}
         selectedLevel={selectedLevel}
+        selectedGrammarUnit={selectedGrammarUnit}
         onQuestionCountChange={setQuestionCount}
         onTopicChange={setSelectedTopic}
         onLevelChange={setSelectedLevel}
+        onGrammarUnitChange={setSelectedGrammarUnit}
         onGenerate={generateQuestions}
       />
     )
