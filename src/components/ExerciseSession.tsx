@@ -1,7 +1,7 @@
 import { StructuredFeedback } from '@/types'
 import { FeedbackDisplay } from './FeedbackDisplay'
-import { Spinner } from '@/components'
 import { Button } from '@/components/ui'
+import { Spinner } from './ui/Spinner'
 
 type Question = {
   id: number

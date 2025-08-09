@@ -1,5 +1,4 @@
 import {
-  Spinner,
   QuestionCountSelector,
   TopicSelector,
   LevelSelector,
@@ -7,6 +6,7 @@ import {
 } from '@/components'
 import { TOPICS, LEVELS } from '@/constants/exerciseOptions'
 import { Button } from './ui'
+import { Spinner } from './ui/Spinner'
 
 type Topic = (typeof TOPICS)[number]
 type Level = (typeof LEVELS)[number]
