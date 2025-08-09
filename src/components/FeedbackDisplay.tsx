@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Spinner } from '@/components'
+import { Spinner } from '@/components'
+import { Button } from '@/components/ui'
 import { StructuredFeedback, AlternativeExpression } from '@/types'
 import { paths } from '@/constants/paths'
 import { api } from '@/lib/client'

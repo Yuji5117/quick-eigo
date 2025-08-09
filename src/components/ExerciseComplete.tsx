@@ -1,4 +1,4 @@
-import { Button } from '@/components'
+import { Button } from '@/components/ui'
 import { ENCOURAGEMENT_MESSAGES } from '@/constants/messages'
 
 type Props = {

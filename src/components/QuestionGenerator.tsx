@@ -1,5 +1,4 @@
 import {
-  Button,
   Spinner,
   QuestionCountSelector,
   TopicSelector,
@@ -7,6 +6,7 @@ import {
   GrammarUnitSelector,
 } from '@/components'
 import { TOPICS, LEVELS } from '@/constants/exerciseOptions'
+import { Button } from './ui'
 
 type Topic = (typeof TOPICS)[number]
 type Level = (typeof LEVELS)[number]
