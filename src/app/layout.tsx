@@ -1,7 +1,7 @@
-import { Header } from '@/components'
 import type { Metadata } from 'next'
 
 import '@/styles/globals.css'
+import { Header } from '@/components/layout'
 
 export const metadata: Metadata = {
   title: 'Quick Eigo',

@@ -1,6 +1,5 @@
 export * from './ExercisePlayer'
 export * from './FeedbackDisplay'
-export * from './Header'
 export * from './QuestionGenerator'
 export * from './QuestionCountSelector'
 export * from './TopicSelector'
