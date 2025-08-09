@@ -1,7 +1,9 @@
 'use client'
 
-import { QuestionGenerator, ExerciseSession, ExerciseComplete } from '@/components'
 import { useExercisePlayer } from '@/hooks/useExercisePlayer'
+import { ExerciseComplete } from './ExerciseComplete'
+import { QuestionGenerator } from './QuestionGenerator'
+import { ExerciseSession } from './ExerciseSession'
 
 export const ExercisePlayer = () => {
   const {
@@ -72,3 +74,5 @@ export const ExercisePlayer = () => {
     />
   )
 }
+
+export const ExercisePlayerComponent = 'test'

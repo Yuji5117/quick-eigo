@@ -1,11 +1,9 @@
-import {
-  QuestionCountSelector,
-  TopicSelector,
-  LevelSelector,
-  GrammarUnitSelector,
-} from '@/components'
 import { TOPICS, LEVELS } from '@/constants/exerciseOptions'
 import { Button, Spinner } from '@/components/ui'
+import { TopicSelector } from './TopicSelector'
+import { LevelSelector } from './LevelSelector'
+import { GrammarUnitSelector } from './GrammarUnitSelector'
+import { QuestionCountSelector } from './QuestionCountSelector'
 
 type Topic = (typeof TOPICS)[number]
 type Level = (typeof LEVELS)[number]
