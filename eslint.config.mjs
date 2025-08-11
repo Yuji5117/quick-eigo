@@ -1,7 +1,7 @@
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { FlatCompat } from '@eslint/eslintrc'
 
+import { FlatCompat } from '@eslint/eslintrc'
 import importPlugin from 'eslint-plugin-import'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -24,10 +24,27 @@ const eslintConfig = [
     },
     settings: {
       'import/resolver': {
-        typescript: { project: './tsconfig.json' },
+        typescript: {},
       },
     },
     rules: {
+      'import/order': [
+        'error',
+        {
+          'newlines-between': 'always',
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'object',
+            'type',
+          ],
+          pathGroups: [{ pattern: '@/components/**', group: 'internal', position: 'after' }],
+          pathGroupsExcludedImportTypes: ['builtin', 'object'],
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
       'import/no-cycle': ['error', { maxDepth: 1 }],
       'no-restricted-imports': [
         'error',
