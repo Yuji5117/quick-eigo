@@ -1,7 +1,7 @@
 import { paths } from '@/constants/paths'
+import { Question } from '@/types'
 
 import { api } from '../client'
-import { Question } from '@/types'
 
 export const generateQuestions = (
   topic: string,

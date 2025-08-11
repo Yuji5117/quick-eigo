@@ -1,10 +1,11 @@
+import { useCallback, useState } from 'react'
+
+import { DEFAULT_LEVEL, DEFAULT_TOPIC, LEVELS, TOPICS } from '@/constants/exerciseOptions'
+import { DEFAULT_GRAMMAR_UNIT } from '@/constants/grammarUnits'
 import { paths } from '@/constants/paths'
 import { DEFAULT_QUESTION_COUNT } from '@/constants/questionCounts'
-import { DEFAULT_TOPIC, DEFAULT_LEVEL, TOPICS, LEVELS } from '@/constants/exerciseOptions'
-import { DEFAULT_GRAMMAR_UNIT } from '@/constants/grammarUnits'
 import { api } from '@/lib/client'
 import { Question, StructuredFeedback } from '@/types'
-import { useState, useCallback } from 'react'
 
 type Topic = (typeof TOPICS)[number]
 type Level = (typeof LEVELS)[number]

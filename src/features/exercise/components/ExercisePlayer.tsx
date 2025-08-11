@@ -1,9 +1,10 @@
 'use client'
 
 import { useExercisePlayer } from '@/hooks/useExercisePlayer'
+
 import { ExerciseComplete } from './ExerciseComplete'
-import { QuestionGenerator } from './QuestionGenerator'
 import { ExerciseSession } from './ExerciseSession'
+import { QuestionGenerator } from './QuestionGenerator'
 
 export const ExercisePlayer = () => {
   const {

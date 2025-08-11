@@ -1,10 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Spinner } from '@/components/ui'
-import { StructuredFeedback, AlternativeExpression } from '@/types'
+
 import { paths } from '@/constants/paths'
 import { api } from '@/lib/client'
+import { AlternativeExpression, StructuredFeedback } from '@/types'
+
+import { Button, Spinner } from '@/components/ui'
 
 interface FeedbackDisplayProps {
   feedback: StructuredFeedback
