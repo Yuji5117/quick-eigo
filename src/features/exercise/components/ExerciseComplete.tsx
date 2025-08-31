@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui'
 import { ENCOURAGEMENT_MESSAGES } from '@/constants/messages'
+
+import { Button } from '@/components/ui'
 
 type Props = {
   totalQuestions: number
