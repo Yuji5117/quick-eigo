@@ -1,6 +1,4 @@
-type AnswerInputProps = {}
-
-export const AnswerInput: React.FC<AnswerInputProps> = ({}) => {
+export const AnswerInput: React.FC = () => {
   return (
     <div>
       <textarea
