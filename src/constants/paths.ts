@@ -12,4 +12,11 @@ export const paths = {
       },
     },
   },
+  pages: {
+    home: '/',
+    practice: {
+      play: '/practice/play',
+      summary: '/practice/summary',
+    },
+  },
 } as const
