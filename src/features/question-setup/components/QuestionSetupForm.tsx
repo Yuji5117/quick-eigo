@@ -1,6 +1,7 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useActionState, useEffect, useState } from 'react'
 
 import { LEVELS, TOPICS } from '@/constants/exerciseOptions'
 
@@ -9,6 +10,7 @@ import { Button } from '@/components/ui'
 import { generateQuestionAction, type GenerateQuestionState } from '../actions/generateQuestion'
 
 export function QuestionSetupForm() {
+  const router = useRouter()
   const [selectedTopic, setSelectedTopic] = useState<string>(TOPICS[0].value)
   const [selectedLevel, setSelectedLevel] = useState<string>(LEVELS[1].value)
   const [grammarUnit, setGrammarUnit] = useState('')
@@ -16,6 +18,14 @@ export function QuestionSetupForm() {
 
   const initialState: GenerateQuestionState = {}
   const [state, formAction, isPending] = useActionState(generateQuestionAction, initialState)
+
+  useEffect(() => {
+    if (state.success && state.questions) {
+      sessionStorage.setItem('practiceQuestions', JSON.stringify(state.questions))
+
+      router.push('/practice/play')
+    }
+  }, [state, router])
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 p-6">
