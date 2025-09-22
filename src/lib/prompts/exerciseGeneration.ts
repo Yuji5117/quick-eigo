@@ -25,7 +25,7 @@ export const createExerciseGenerationPrompt = ({
 ・日本語で問題文のみ（ヒント・解答は含めない）
 出力形式:
 [
-  { "id": 1, "japanese": "…", "type": "affirmative" },
+  { "id": 1, "japanese": "今日は何するの？", "type": "affirmative" },
   …
 ]
 `.trim()
