@@ -1,12 +1,13 @@
 // app/api/exercises/generate/route.ts
-import { openai } from '@/lib/openai'
-import { createExerciseGenerationPrompt } from '@/lib/prompts'
 import { NextResponse } from 'next/server'
+
+import { openai } from '@/lib/openai'
+import { createQuestionGenerationPrompt } from '@/lib/prompts'
 
 export async function POST(req: Request) {
   const { topic, level, grammarUnit, count, previousQuestions } = await req.json()
 
-  const systemPrompt = createExerciseGenerationPrompt({ topic, level, grammarUnit, count })
+  const systemPrompt = createQuestionGenerationPrompt({ topic, level, grammarUnit, count })
 
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o',
