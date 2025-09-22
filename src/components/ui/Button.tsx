@@ -20,13 +20,21 @@ const getVariantClasses = (variant: ButtonVariant): string => {
   }
 }
 
-export const Button = ({ children, variant = 'primary', className, ...props }: ButtonProps) => {
+export const Button = ({
+  children,
+  variant = 'primary',
+  className,
+  disabled,
+  ...props
+}: ButtonProps) => {
   const variantClasses = getVariantClasses(variant)
+  const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
 
   return (
     <button
       {...props}
-      className={`cursor-pointer rounded-lg p-4 shadow-md ${variantClasses} ${className || ''}`}
+      disabled={disabled}
+      className={`rounded-lg p-4 shadow-md ${variantClasses} ${disabledClasses} ${className || ''}`}
     >
       {children}
     </button>
