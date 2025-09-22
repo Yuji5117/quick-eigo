@@ -1,18 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useActionState, useState } from 'react'
 
 import { LEVELS, TOPICS } from '@/constants/exerciseOptions'
 
 import { Button } from '@/components/ui'
 
-import { generateQuestionAction } from '../actions/generateQuestion'
+import { generateQuestionAction, type GenerateQuestionState } from '../actions/generateQuestion'
 
 export function QuestionSetupForm() {
   const [selectedTopic, setSelectedTopic] = useState<string>(TOPICS[0].value)
   const [selectedLevel, setSelectedLevel] = useState<string>(LEVELS[1].value)
   const [grammarUnit, setGrammarUnit] = useState('')
   const [questionCount, setQuestionCount] = useState(10)
+
+  const initialState: GenerateQuestionState = {}
+  const [state, formAction, isPending] = useActionState(generateQuestionAction, initialState)
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 p-6">
@@ -21,7 +24,7 @@ export function QuestionSetupForm() {
         <p className="text-gray-600">お好みの設定で英作文問題を生成します</p>
       </div>
 
-      <form action={generateQuestionAction} className="space-y-8">
+      <form action={formAction} className="space-y-8">
         <input type="hidden" name="topic" value={selectedTopic} />
         <input type="hidden" name="level" value={selectedLevel} />
         <input type="hidden" name="grammarUnit" value={grammarUnit} />
@@ -100,9 +103,20 @@ export function QuestionSetupForm() {
           </select>
         </div>
 
+        {state.error && (
+          <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+            {state.error}
+          </div>
+        )}
+
         <div className="pt-6">
-          <Button type="submit" variant="primary" className="w-full py-4 text-lg font-semibold">
-            問題を生成して開始
+          <Button
+            type="submit"
+            variant="primary"
+            className="w-full py-4 text-lg font-semibold"
+            disabled={isPending}
+          >
+            {isPending ? '問題を生成中...' : '問題を生成して開始'}
           </Button>
         </div>
       </form>
