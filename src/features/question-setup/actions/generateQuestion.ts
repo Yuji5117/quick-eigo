@@ -1,7 +1,5 @@
 'use server'
 
-import { redirect } from 'next/navigation'
-
 import { openai } from '@/lib/openai'
 import { createQuestionGenerationPrompt } from '@/lib/prompts'
 import { getNumber, getString } from '@/utils/formData'
@@ -9,6 +7,7 @@ import { getNumber, getString } from '@/utils/formData'
 export type GenerateQuestionState = {
   success?: boolean
   error?: string
+  questions?: { id: number; japanese: string; type: string }[]
 }
 
 export async function generateQuestionAction(
@@ -47,12 +46,12 @@ export async function generateQuestionAction(
       return { error: '問題の解析に失敗しました' }
     }
 
-    // 生成された問題をセッションストレージやクッキーに保存
-    // TODO: 問題データの永続化実装（cookies、session、database等）
+    return {
+      success: true,
+      questions,
+    }
   } catch (error) {
     console.error('Error generating questions:', error)
     return { error: '問題の生成中にエラーが発生しました' }
   }
-
-  redirect('/practice/play')
 }
