@@ -1,14 +1,27 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
-import { AnswerInput, PracticeFeedback, ProgressBar, QuestionText } from '@/features/practice/'
+import {
+  AnswerInput,
+  PracticeFeedback,
+  ProgressBar,
+  QuestionText,
+  generateFeedbackAction,
+  type FeedbackResult,
+} from '@/features/practice/'
 import { usePracticeSession } from '@/hooks/usePracticeSession'
 
 import { Button } from '@/components/ui'
 
 export default function PracticePlay() {
   const router = useRouter()
+  const [currentAnswer, setCurrentAnswer] = useState('')
+  const [feedback, setFeedback] = useState<FeedbackResult | null>(null)
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false)
+  const [feedbackError, setFeedbackError] = useState<string | null>(null)
+
   const {
     currentQuestion,
     progress,
@@ -50,9 +63,35 @@ export default function PracticePlay() {
     )
   }
 
-  const handleAnswerSubmit = (answer: string) => {
-    console.log('Submitted answer:', answer)
-    // 今後、添削機能などを実装予定
+  const handleAnswerSubmit = async (answer: string) => {
+    if (!answer.trim()) {
+      return
+    }
+
+    setFeedback(null)
+    setFeedbackError(null)
+    setIsGeneratingFeedback(true)
+
+    try {
+      const result = await generateFeedbackAction(currentQuestion?.japanese || '', answer)
+
+      if (result.success && result.feedback) {
+        setFeedback(result.feedback)
+      } else {
+        setFeedbackError(result.error || 'フィードバックの生成に失敗しました')
+      }
+    } catch (error) {
+      console.error('Error generating feedback:', error)
+      setFeedbackError('フィードバックの生成中にエラーが発生しました')
+    } finally {
+      setIsGeneratingFeedback(false)
+    }
+  }
+
+  const handleNextQuestion = () => {
+    setCurrentAnswer('')
+    setFeedback(null)
+    setFeedbackError(null)
     nextQuestion()
   }
 
@@ -60,11 +99,45 @@ export default function PracticePlay() {
     <div className="flex flex-col gap-y-8 p-6">
       <ProgressBar total={progress.total} current={progress.current} />
       <QuestionText text={currentQuestion?.japanese || ''} />
-      <AnswerInput onSubmit={handleAnswerSubmit} />
-      <PracticeFeedback />
-      <Button variant="primary" onClick={() => handleAnswerSubmit('')}>
-        添削を依頼
-      </Button>
+      <AnswerInput
+        value={currentAnswer}
+        onChange={setCurrentAnswer}
+        onSubmit={handleAnswerSubmit}
+      />
+
+      {isGeneratingFeedback && (
+        <div className="flex items-center justify-center p-8">
+          <div className="text-lg">フィードバックを生成中...</div>
+        </div>
+      )}
+
+      {feedbackError && (
+        <div className="rounded-lg bg-red-50 p-4 text-red-700">エラー: {feedbackError}</div>
+      )}
+
+      {feedback && (
+        <PracticeFeedback
+          userAnswer={currentAnswer}
+          modelAnswer={feedback.modelAnswer}
+          advice={feedback.advice}
+          otherExpressions={feedback.otherExpressions}
+        />
+      )}
+
+      {feedback ? (
+        <Button variant="primary" onClick={handleNextQuestion}>
+          次の問題へ
+        </Button>
+      ) : (
+        <Button
+          variant="primary"
+          onClick={() => handleAnswerSubmit(currentAnswer)}
+          disabled={!currentAnswer.trim() || isGeneratingFeedback}
+        >
+          添削を依頼
+        </Button>
+      )}
+
       <Button variant="secondary" onClick={skipQuestion}>
         スキップする
       </Button>
