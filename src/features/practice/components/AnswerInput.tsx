@@ -1,18 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-
 type AnswerInputProps = {
+  value: string
+  onChange: (value: string) => void
   onSubmit?: (answer: string) => void
 }
 
-export const AnswerInput: React.FC<AnswerInputProps> = ({ onSubmit }) => {
-  const [answer, setAnswer] = useState('')
-
+export const AnswerInput: React.FC<AnswerInputProps> = ({ value, onChange, onSubmit }) => {
   const handleSubmit = () => {
-    if (answer.trim() && onSubmit) {
-      onSubmit(answer.trim())
-      setAnswer('')
+    if (value.trim() && onSubmit) {
+      onSubmit(value.trim())
     }
   }
 
@@ -27,8 +24,8 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({ onSubmit }) => {
     <div>
       <textarea
         rows={4}
-        value={answer}
-        onChange={e => setAnswer(e.target.value)}
+        value={value}
+        onChange={e => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="回答の英文を記入してください... (Ctrl/Cmd + Enter で提出)"
         className="w-full rounded-lg border border-gray-200 p-4 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
