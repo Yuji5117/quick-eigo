@@ -1,12 +1,11 @@
 'use server'
 
 import { openai } from '@/lib/openai'
-import { createAlternativeExpressionsPrompt, createFeedbackPrompt } from '@/lib/prompts'
+import { createFeedbackPrompt } from '@/lib/prompts'
 
 export type FeedbackResult = {
   modelAnswer: string
   advice: string
-  otherExpressions?: string[]
 }
 
 export type GenerateFeedbackState = {
@@ -44,32 +43,9 @@ export async function generateFeedbackAction(
       return { error: 'フィードバックの解析に失敗しました' }
     }
 
-    const alternativePrompt = createAlternativeExpressionsPrompt({
-      question,
-      userAnswer,
-      modelAnswer: feedbackData.modelAnswer,
-    })
-
-    const alternativeCompletion = await openai.chat.completions.create({
-      model: 'gpt-5-nano',
-      messages: [{ role: 'system', content: alternativePrompt }],
-    })
-
-    const alternativeText = alternativeCompletion.choices[0].message?.content ?? '[]'
-    let otherExpressions: string[] = []
-
-    try {
-      const alternatives = JSON.parse(alternativeText)
-      otherExpressions = alternatives.map((alt: { expression: string }) => alt.expression)
-    } catch (e) {
-      console.error('Failed to parse alternative expressions JSON:', e)
-      // Continue without alternative expressions
-    }
-
     const feedback: FeedbackResult = {
       modelAnswer: feedbackData.modelAnswer,
       advice: feedbackData.advice,
-      otherExpressions: otherExpressions.length > 0 ? otherExpressions : undefined,
     }
 
     return {
