@@ -120,7 +120,7 @@ export default function PracticePlay() {
           userAnswer={currentAnswer}
           modelAnswer={feedback.modelAnswer}
           advice={feedback.advice}
-          otherExpressions={feedback.otherExpressions}
+          question={currentQuestion?.japanese || ''}
         />
       )}
 
