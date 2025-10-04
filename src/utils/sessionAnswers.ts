@@ -16,7 +16,7 @@ const getSessionData = (): SessionData | null => {
     const parsed = JSON.parse(data)
     return {
       ...parsed,
-      results: parsed.results.map((result: any) => ({
+      results: parsed.results.map((result: { answeredAt: string }) => ({
         ...result,
         answeredAt: new Date(result.answeredAt),
       })),
@@ -56,7 +56,7 @@ export const sessionAnswers = {
     question: Question,
     userAnswer: string,
     feedback: { modelAnswer: string; advice: string },
-    otherExpressions: string[] = []
+    otherExpressions: string[] = [],
   ): void {
     let sessionData = getSessionData()
 
