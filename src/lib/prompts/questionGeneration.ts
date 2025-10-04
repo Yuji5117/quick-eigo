@@ -1,7 +1,7 @@
 type QuestionGenerationParams = {
   topic: string
   level: string
-  grammarUnit: string
+  grammarUnit?: string
   count: number
 }
 
@@ -10,18 +10,22 @@ export const createQuestionGenerationPrompt = ({
   level,
   grammarUnit,
   count,
-}: QuestionGenerationParams) =>
-  `
+}: QuestionGenerationParams) => {
+  const grammarUnitSection = grammarUnit
+    ? `・文法単元: ${grammarUnit}
+・指定された文法単元を重点的に練習できる問題を作成`
+    : '・様々な文法パターンを使った問題を作成'
+
+  return `
 あなたはプロの英語問題作成チューターです。
 以下の条件に従って、JSON 配列で瞬間英作文の問題を出力してください。
 
 【条件】
 ・トピック: ${topic}
 ・レベル: ${level}
-・文法単元: ${grammarUnit}
+${grammarUnitSection}
 ・問題数: ${count}
 ・30% は疑問文形式（残り70%は平叙文）
-・指定された文法単元を重点的に練習できる問題を作成
 ・日常会話でよく使う自然な表現を優先
 ・日本語で問題文のみ出力（英語の解答やヒントは含めない）
 
@@ -42,3 +46,4 @@ JSON配列で、各問題は以下の形式:
 
 【重要】JSONのみを出力し、説明文は不要です。
 `.trim()
+}

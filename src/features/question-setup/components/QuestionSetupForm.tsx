@@ -88,12 +88,14 @@ export function QuestionSetupForm() {
         </div>
 
         <div>
-          <h2 className="mb-4 text-xl font-semibold">文法単元</h2>
+          <h2 className="mb-4 text-xl font-semibold">
+            文法単元 <span className="text-sm font-normal text-gray-500">(任意)</span>
+          </h2>
           <input
             type="text"
             value={grammarUnit}
             onChange={e => setGrammarUnit(e.target.value)}
-            placeholder="例: 現在完了形、関係代名詞、仮定法など"
+            placeholder="例: 現在完了形、関係代名詞、仮定法など（空欄でも問題生成可能）"
             className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
