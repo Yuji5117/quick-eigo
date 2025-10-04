@@ -12,9 +12,9 @@ import {
   type FeedbackResult,
 } from '@/features/practice/'
 import { usePracticeSession } from '@/hooks/usePracticeSession'
+import { sessionAnswers } from '@/utils/sessionAnswers'
 
 import { Button } from '@/components/ui'
-import { sessionAnswers } from '@/utils/sessionAnswers'
 
 export default function PracticePlay() {
   const router = useRouter()
