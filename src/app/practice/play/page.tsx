@@ -28,12 +28,11 @@ export default function PracticePlay() {
     progress,
     isLoaded,
     hasQuestions,
-    isCompleted,
+    isLastQuestion,
     nextQuestion,
     skipQuestion,
   } = usePracticeSession()
 
-  // セッション開始（練習開始時に一度だけ実行）
   useEffect(() => {
     if (isLoaded && hasQuestions && !sessionAnswers.isActive()) {
       sessionAnswers.startNew()
@@ -59,23 +58,6 @@ export default function PracticePlay() {
     )
   }
 
-  if (isCompleted) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-        <div className="text-xl font-semibold">お疲れ様でした！</div>
-        <div className="text-gray-600">すべての問題が完了しました</div>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Button variant="primary" onClick={() => router.push('/practice/review')}>
-            結果を振り返る
-          </Button>
-          <Button variant="secondary" onClick={() => router.push('/')}>
-            新しい問題を作成する
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
   const handleAnswerSubmit = async (answer: string) => {
     if (!answer.trim()) {
       return
@@ -91,7 +73,6 @@ export default function PracticePlay() {
       if (result.success && result.feedback) {
         setFeedback(result.feedback)
 
-        // セッション回答結果を保存
         if (currentQuestion) {
           sessionAnswers.save(currentQuestion, answer, result.feedback)
         }
@@ -107,10 +88,22 @@ export default function PracticePlay() {
   }
 
   const handleNextQuestion = () => {
-    setCurrentAnswer('')
-    setFeedback(null)
-    setFeedbackError(null)
-    nextQuestion()
+    if (isLastQuestion) {
+      router.push('/practice/review')
+    } else {
+      setCurrentAnswer('')
+      setFeedback(null)
+      setFeedbackError(null)
+      nextQuestion()
+    }
+  }
+
+  const handleSkipQuestion = () => {
+    if (isLastQuestion) {
+      router.push('/practice/review')
+    } else {
+      skipQuestion()
+    }
   }
 
   return (
@@ -145,7 +138,7 @@ export default function PracticePlay() {
 
       {feedback ? (
         <Button variant="primary" onClick={handleNextQuestion}>
-          次の問題へ
+          {isLastQuestion ? '結果を確認する' : '次の問題へ'}
         </Button>
       ) : (
         <Button
@@ -157,7 +150,7 @@ export default function PracticePlay() {
         </Button>
       )}
 
-      <Button variant="secondary" onClick={skipQuestion}>
+      <Button variant="secondary" onClick={handleSkipQuestion}>
         スキップする
       </Button>
     </div>

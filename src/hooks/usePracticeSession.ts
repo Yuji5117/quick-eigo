@@ -28,14 +28,13 @@ export function usePracticeSession() {
   }, [])
 
   const currentQuestion = questions[currentIndex] || null
-  const isCompleted = currentIndex >= questions.length
   const progress = {
     current: currentIndex + 1,
     total: questions.length,
   }
 
   const nextQuestion = () => {
-    if (currentIndex < questions.length - 1) {
+    if (currentIndex < questions.length) {
       setCurrentIndex(currentIndex + 1)
     }
   }
@@ -45,15 +44,16 @@ export function usePracticeSession() {
   }
 
   const hasQuestions = questions.length > 0
+  const isLastQuestion = currentIndex === questions.length - 1
 
   return {
     questions,
     currentQuestion,
     currentIndex,
     isLoaded,
-    isCompleted,
     progress,
     hasQuestions,
+    isLastQuestion,
     nextQuestion,
     skipQuestion,
   }
