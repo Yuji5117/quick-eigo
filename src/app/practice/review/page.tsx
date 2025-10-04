@@ -3,10 +3,11 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import type { QuestionResult } from '@/types'
 import { sessionAnswers } from '@/utils/sessionAnswers'
 
 import { Button } from '@/components/ui'
+
+import type { QuestionResult } from '@/types'
 
 type SessionData = {
   sessionId: string
