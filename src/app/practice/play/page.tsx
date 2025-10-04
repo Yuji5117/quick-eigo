@@ -14,6 +14,7 @@ import {
 import { usePracticeSession } from '@/hooks/usePracticeSession'
 
 import { Button } from '@/components/ui'
+import { sessionAnswers } from '@/utils/sessionAnswers'
 
 export default function PracticePlay() {
   const router = useRouter()
@@ -77,6 +78,11 @@ export default function PracticePlay() {
 
       if (result.success && result.feedback) {
         setFeedback(result.feedback)
+
+        // セッション回答結果を保存
+        if (currentQuestion) {
+          sessionAnswers.save(currentQuestion, answer, result.feedback)
+        }
       } else {
         setFeedbackError(result.error || 'フィードバックの生成に失敗しました')
       }
@@ -121,6 +127,7 @@ export default function PracticePlay() {
           modelAnswer={feedback.modelAnswer}
           advice={feedback.advice}
           question={currentQuestion?.japanese || ''}
+          questionId={currentQuestion?.id || 0}
         />
       )}
 
