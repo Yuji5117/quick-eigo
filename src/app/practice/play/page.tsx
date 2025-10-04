@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   AnswerInput,
@@ -33,6 +33,13 @@ export default function PracticePlay() {
     skipQuestion,
   } = usePracticeSession()
 
+  // セッション開始（練習開始時に一度だけ実行）
+  useEffect(() => {
+    if (isLoaded && hasQuestions && !sessionAnswers.isActive()) {
+      sessionAnswers.startNew()
+    }
+  }, [isLoaded, hasQuestions])
+
   if (!isLoaded) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -57,9 +64,14 @@ export default function PracticePlay() {
       <div className="flex min-h-screen flex-col items-center justify-center gap-4">
         <div className="text-xl font-semibold">お疲れ様でした！</div>
         <div className="text-gray-600">すべての問題が完了しました</div>
-        <Button variant="primary" onClick={() => router.push('/')}>
-          新しい問題を作成する
-        </Button>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button variant="primary" onClick={() => router.push('/practice/review')}>
+            結果を振り返る
+          </Button>
+          <Button variant="secondary" onClick={() => router.push('/')}>
+            新しい問題を作成する
+          </Button>
+        </div>
       </div>
     )
   }
