@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 
+import { sessionAnswers } from '@/utils/sessionAnswers'
+
 import { generateAlternativeExpressionsAction } from '../actions/generateAlternativeExpressions'
 
 type PracticeFeedbackProps = {
@@ -9,6 +11,7 @@ type PracticeFeedbackProps = {
   modelAnswer: string
   advice: string
   question: string
+  questionId: number
 }
 
 export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
@@ -16,6 +19,7 @@ export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
   modelAnswer,
   advice,
   question,
+  questionId,
 }) => {
   const [showOtherExpression, setShowOtherExpression] = useState<boolean>(false)
   const [otherExpressions, setOtherExpressions] = useState<string[]>([])
@@ -42,6 +46,9 @@ export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
       if (result.success && result.result) {
         setOtherExpressions(result.result.expressions)
         setShowOtherExpression(true)
+
+        // セッションデータの他の表現を更新
+        sessionAnswers.updateOtherExpressions(questionId, result.result.expressions)
       } else {
         setExpressionsError(result.error || '他の表現の生成に失敗しました')
       }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   AnswerInput,
@@ -12,6 +12,7 @@ import {
   type FeedbackResult,
 } from '@/features/practice/'
 import { usePracticeSession } from '@/hooks/usePracticeSession'
+import { sessionAnswers } from '@/utils/sessionAnswers'
 
 import { Button } from '@/components/ui'
 
@@ -27,10 +28,16 @@ export default function PracticePlay() {
     progress,
     isLoaded,
     hasQuestions,
-    isCompleted,
+    isLastQuestion,
     nextQuestion,
     skipQuestion,
   } = usePracticeSession()
+
+  useEffect(() => {
+    if (isLoaded && hasQuestions && !sessionAnswers.isActive()) {
+      sessionAnswers.startNew()
+    }
+  }, [isLoaded, hasQuestions])
 
   if (!isLoaded) {
     return (
@@ -51,18 +58,6 @@ export default function PracticePlay() {
     )
   }
 
-  if (isCompleted) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-        <div className="text-xl font-semibold">お疲れ様でした！</div>
-        <div className="text-gray-600">すべての問題が完了しました</div>
-        <Button variant="primary" onClick={() => router.push('/')}>
-          新しい問題を作成する
-        </Button>
-      </div>
-    )
-  }
-
   const handleAnswerSubmit = async (answer: string) => {
     if (!answer.trim()) {
       return
@@ -77,6 +72,10 @@ export default function PracticePlay() {
 
       if (result.success && result.feedback) {
         setFeedback(result.feedback)
+
+        if (currentQuestion) {
+          sessionAnswers.save(currentQuestion, answer, result.feedback)
+        }
       } else {
         setFeedbackError(result.error || 'フィードバックの生成に失敗しました')
       }
@@ -89,10 +88,22 @@ export default function PracticePlay() {
   }
 
   const handleNextQuestion = () => {
-    setCurrentAnswer('')
-    setFeedback(null)
-    setFeedbackError(null)
-    nextQuestion()
+    if (isLastQuestion) {
+      router.push('/practice/review')
+    } else {
+      setCurrentAnswer('')
+      setFeedback(null)
+      setFeedbackError(null)
+      nextQuestion()
+    }
+  }
+
+  const handleSkipQuestion = () => {
+    if (isLastQuestion) {
+      router.push('/practice/review')
+    } else {
+      skipQuestion()
+    }
   }
 
   return (
@@ -121,12 +132,13 @@ export default function PracticePlay() {
           modelAnswer={feedback.modelAnswer}
           advice={feedback.advice}
           question={currentQuestion?.japanese || ''}
+          questionId={currentQuestion?.id || 0}
         />
       )}
 
       {feedback ? (
         <Button variant="primary" onClick={handleNextQuestion}>
-          次の問題へ
+          {isLastQuestion ? '結果を確認する' : '次の問題へ'}
         </Button>
       ) : (
         <Button
@@ -138,7 +150,7 @@ export default function PracticePlay() {
         </Button>
       )}
 
-      <Button variant="secondary" onClick={skipQuestion}>
+      <Button variant="secondary" onClick={handleSkipQuestion}>
         スキップする
       </Button>
     </div>

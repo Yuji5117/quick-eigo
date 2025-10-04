@@ -20,7 +20,7 @@ export async function generateQuestionAction(
     const grammarUnit = getString(formData, 'grammarUnit')
     const questionCount = getNumber(formData, 'questionCount')
 
-    if (!topic || !level || !grammarUnit || !questionCount) {
+    if (!topic || !level || !questionCount) {
       return { error: '必須項目が不足しています' }
     }
 
