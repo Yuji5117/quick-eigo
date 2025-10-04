@@ -114,6 +114,7 @@ export default function PracticePlay() {
         value={currentAnswer}
         onChange={setCurrentAnswer}
         onSubmit={handleAnswerSubmit}
+        questionId={currentQuestion?.id}
       />
 
       {isGeneratingFeedback && (
