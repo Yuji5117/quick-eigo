@@ -1,5 +1,6 @@
 'use server'
 
+import { WORD_DECKS } from '@/constants/wordDecks'
 import { openai } from '@/lib/openai'
 import { createQuestionGenerationPrompt } from '@/lib/prompts'
 import { getNumber, getString } from '@/utils/formData'
@@ -17,6 +18,7 @@ export async function generateQuestionAction(
   try {
     const topic = getString(formData, 'topic')
     const level = getString(formData, 'level')
+    const selectedDeck = getString(formData, 'selectedDeck')
     const grammarUnit = getString(formData, 'grammarUnit')
     const questionCount = getNumber(formData, 'questionCount')
 
@@ -24,11 +26,19 @@ export async function generateQuestionAction(
       return { error: '必須項目が不足しています' }
     }
 
+    const selectedDeckData = WORD_DECKS.find(deck => deck.id === selectedDeck)
+    const deckWords =
+      selectedDeckData && selectedDeckData.id !== 'none'
+        ? selectedDeckData.cards.map(card => card.japanese).slice(0, 10)
+        : undefined
+
     const systemPrompt = createQuestionGenerationPrompt({
       topic,
       level,
       grammarUnit,
       count: questionCount,
+      deckName: selectedDeckData?.name,
+      deckWords,
     })
 
     const completion = await openai.chat.completions.create({
