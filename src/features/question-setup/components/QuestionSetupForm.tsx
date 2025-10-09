@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useActionState, useEffect, useState } from 'react'
 
 import { LEVELS, TOPICS } from '@/constants/exerciseOptions'
+import { WORD_DECKS } from '@/constants/wordDecks'
 
 import { Button } from '@/components/ui'
 
@@ -13,6 +14,7 @@ export function QuestionSetupForm() {
   const router = useRouter()
   const [selectedTopic, setSelectedTopic] = useState<string>(TOPICS[0].value)
   const [selectedLevel, setSelectedLevel] = useState<string>(LEVELS[1].value)
+  const [selectedDeck, setSelectedDeck] = useState<string>(WORD_DECKS[0].id)
   const [grammarUnit, setGrammarUnit] = useState('')
   const [questionCount, setQuestionCount] = useState(5)
 
@@ -37,6 +39,7 @@ export function QuestionSetupForm() {
       <form action={formAction} className="space-y-8">
         <input type="hidden" name="topic" value={selectedTopic} />
         <input type="hidden" name="level" value={selectedLevel} />
+        <input type="hidden" name="selectedDeck" value={selectedDeck} />
         <input type="hidden" name="grammarUnit" value={grammarUnit} />
         <input type="hidden" name="questionCount" value={questionCount} />
 
@@ -83,6 +86,29 @@ export function QuestionSetupForm() {
                   </div>
                 </div>
               </label>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 className="mb-4 text-xl font-semibold">単語デッキ</h2>
+          <div className="grid grid-cols-2 gap-4">
+            {WORD_DECKS.map(deck => (
+              <button
+                key={deck.id}
+                type="button"
+                onClick={() => setSelectedDeck(deck.id)}
+                className={`rounded-lg border-2 p-4 transition-all ${
+                  selectedDeck === deck.id
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="mb-2 text-2xl">{deck.emoji}</div>
+                <div className="font-medium">{deck.name}</div>
+                <div className="text-sm text-gray-600">{deck.description}</div>
+                <div className="mt-2 text-xs text-gray-500">{deck.cardCount} words</div>
+              </button>
             ))}
           </div>
         </div>
