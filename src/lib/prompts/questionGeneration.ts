@@ -3,6 +3,8 @@ type QuestionGenerationParams = {
   level: string
   grammarUnit?: string
   count: number
+  deckName?: string
+  deckWords?: string[]
 }
 
 export const createQuestionGenerationPrompt = ({
@@ -10,11 +12,20 @@ export const createQuestionGenerationPrompt = ({
   level,
   grammarUnit,
   count,
+  deckName,
+  deckWords,
 }: QuestionGenerationParams) => {
   const grammarUnitSection = grammarUnit
     ? `・文法単元: ${grammarUnit}
 ・指定された文法単元を重点的に練習できる問題を作成`
     : '・様々な文法パターンを使った問題を作成'
+
+  const deckSection =
+    deckName && deckWords && deckWords.length > 0
+      ? `・使用単語デッキ: ${deckName}
+・優先使用単語: ${deckWords.join('、')}
+・デッキの単語を優先的に使用して問題を作成`
+      : ''
 
   return `
 あなたはプロの英語問題作成チューターです。
@@ -24,6 +35,7 @@ export const createQuestionGenerationPrompt = ({
 ・トピック: ${topic}
 ・レベル: ${level}
 ${grammarUnitSection}
+${deckSection}
 ・問題数: ${count}
 ・30% は疑問文形式（残り70%は平叙文）
 ・日常会話でよく使う自然な表現を優先
