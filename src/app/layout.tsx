@@ -1,4 +1,4 @@
-import { Header } from '@/components/layouts'
+import { BottomNavigation, Header } from '@/components/layouts'
 
 import type { Metadata } from 'next'
 
@@ -18,7 +18,8 @@ export default function RootLayout({
     <html lang="ja">
       <body className="flex min-h-screen flex-col bg-gray-100">
         <Header />
-        {children}
+        <div className="flex-1 pb-16">{children}</div>
+        <BottomNavigation />
       </body>
     </html>
   )
