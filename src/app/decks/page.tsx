@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
 import { WORD_DECKS } from '@/constants/wordDecks'
@@ -13,15 +14,6 @@ export default function DecksPage() {
       (deck.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         deck.description.toLowerCase().includes(searchQuery.toLowerCase())),
   )
-
-  const formatLastUpdated = (daysAgo: number) => {
-    if (daysAgo === 0) return 'Today'
-    if (daysAgo === 1) return 'Yesterday'
-    if (daysAgo < 7) return `${daysAgo} days ago`
-    if (daysAgo < 14) return '1 week ago'
-    if (daysAgo < 21) return '2 weeks ago'
-    return '3 weeks ago'
-  }
 
   return (
     <div className="bg-gray-50 px-6 py-8">
@@ -74,17 +66,13 @@ export default function DecksPage() {
         </div>
 
         <div className="space-y-4">
-          {filteredDecks.map((deck, index) => (
+          {filteredDecks.map(deck => (
             <div key={deck.id} className="rounded-lg bg-white p-6 shadow-sm">
               <div className="mb-4">
-                <div className="mb-2 flex items-center gap-3">
-                  <span className="text-2xl">{deck.emoji}</span>
+                <div className="mb-2">
                   <h2 className="text-xl font-semibold text-gray-900">{deck.name}</h2>
                 </div>
                 <p className="text-gray-600">{deck.cardCount} words</p>
-                <p className="text-sm text-gray-500">
-                  Last updated {formatLastUpdated(index * 7 + Math.floor(index / 2) * 3)}
-                </p>
               </div>
 
               <div className="flex items-center justify-between border-t pt-4">
@@ -132,9 +120,9 @@ export default function DecksPage() {
       </div>
 
       {/* Floating Create Deck Button */}
-      <button
+      <Link
+        href="/decks/create"
         className="fixed right-6 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-colors hover:bg-blue-700"
-        onClick={() => console.log('Create new deck')}
         title="Create Deck"
       >
         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,7 +133,7 @@ export default function DecksPage() {
             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
           />
         </svg>
-      </button>
+      </Link>
     </div>
   )
 }
