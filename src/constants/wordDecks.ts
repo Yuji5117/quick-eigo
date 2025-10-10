@@ -5,20 +5,14 @@ export const WORD_DECKS: WordDeck[] = [
     id: 'none',
     name: 'デッキなし',
     description: '従来の方式で問題生成',
-    emoji: '🎯',
     cardCount: 0,
-    difficulty: 'beginner',
-    category: 'general',
     cards: [],
   },
   {
     id: 'japanese-basics',
     name: 'Japanese Basics',
     description: '日本語基礎表現',
-    emoji: '🇯🇵',
     cardCount: 15,
-    difficulty: 'beginner',
-    category: 'daily',
     cards: [
       { id: '1', japanese: 'おはようございます', english: 'Good morning' },
       { id: '2', japanese: 'ありがとうございます', english: 'Thank you' },
@@ -45,10 +39,7 @@ export const WORD_DECKS: WordDeck[] = [
     id: 'travel-phrases',
     name: 'Travel Phrases',
     description: '旅行で使える英会話',
-    emoji: '✈️',
     cardCount: 20,
-    difficulty: 'beginner',
-    category: 'travel',
     cards: [
       { id: '1', japanese: 'チェックインをお願いします', english: "I'd like to check in, please" },
       {
@@ -100,10 +91,7 @@ export const WORD_DECKS: WordDeck[] = [
     id: 'food-vocabulary',
     name: 'Food Vocabulary',
     description: '食べ物関連の語彙',
-    emoji: '🍔',
     cardCount: 12,
-    difficulty: 'beginner',
-    category: 'food',
     cards: [
       { id: '1', japanese: 'これは何ですか', english: 'What is this?' },
       { id: '2', japanese: 'アレルギーがあります', english: 'I have allergies' },
