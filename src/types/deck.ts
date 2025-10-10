@@ -2,10 +2,7 @@ export type WordDeck = {
   id: string
   name: string
   description: string
-  emoji: string
   cardCount: number
-  difficulty: 'beginner' | 'intermediate' | 'advanced'
-  category: string
   cards: DeckCard[]
 }
 
