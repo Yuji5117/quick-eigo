@@ -104,7 +104,6 @@ export function QuestionSetupForm() {
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <div className="mb-2 text-2xl">{deck.emoji}</div>
                 <div className="font-medium">{deck.name}</div>
                 <div className="text-sm text-gray-600">{deck.description}</div>
                 <div className="mt-2 text-xs text-gray-500">{deck.cardCount} words</div>
