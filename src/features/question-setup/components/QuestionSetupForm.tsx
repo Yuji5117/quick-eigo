@@ -5,10 +5,13 @@ import { useActionState, useEffect, useState } from 'react'
 
 import { LEVELS, TOPICS } from '@/constants/exerciseOptions'
 import { WORD_DECKS } from '@/constants/wordDecks'
+import { deckStorage } from '@/utils/deckStorage'
 
 import { Button } from '@/components/ui'
 
 import { generateQuestionAction, type GenerateQuestionState } from '../actions/generateQuestion'
+
+import type { WordDeck } from '@/types/deck'
 
 export function QuestionSetupForm() {
   const router = useRouter()
@@ -17,9 +20,17 @@ export function QuestionSetupForm() {
   const [selectedDeck, setSelectedDeck] = useState<string>(WORD_DECKS[0].id)
   const [grammarUnit, setGrammarUnit] = useState('')
   const [questionCount, setQuestionCount] = useState(5)
+  const [allDecks, setAllDecks] = useState<WordDeck[]>(WORD_DECKS)
 
   const initialState: GenerateQuestionState = {}
   const [state, formAction, isPending] = useActionState(generateQuestionAction, initialState)
+
+  // ユーザーデッキとプリセットデッキを統合
+  useEffect(() => {
+    const userDecks = deckStorage.getAllDecks()
+    const combinedDecks = [...WORD_DECKS, ...userDecks]
+    setAllDecks(combinedDecks)
+  }, [])
 
   useEffect(() => {
     if (state.success && state.questions) {
@@ -28,6 +39,11 @@ export function QuestionSetupForm() {
       router.push('/practice/play')
     }
   }, [state, router])
+
+  // 選択されたデッキの情報を取得
+  const selectedDeckData = allDecks.find(deck => deck.id === selectedDeck)
+  const isUserDeck =
+    selectedDeckData && !WORD_DECKS.some(presetDeck => presetDeck.id === selectedDeck)
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 p-6">
@@ -42,6 +58,18 @@ export function QuestionSetupForm() {
         <input type="hidden" name="selectedDeck" value={selectedDeck} />
         <input type="hidden" name="grammarUnit" value={grammarUnit} />
         <input type="hidden" name="questionCount" value={questionCount} />
+
+        {/* ユーザーデッキの場合、単語リストを送信 */}
+        {isUserDeck && selectedDeckData && (
+          <>
+            <input
+              type="hidden"
+              name="deckWords"
+              value={JSON.stringify(selectedDeckData.cards.map(card => card.japanese).slice(0, 10))}
+            />
+            <input type="hidden" name="deckName" value={selectedDeckData.name} />
+          </>
+        )}
 
         <div>
           <h2 className="mb-4 text-xl font-semibold">トピック</h2>
@@ -92,24 +120,17 @@ export function QuestionSetupForm() {
 
         <div>
           <h2 className="mb-4 text-xl font-semibold">単語デッキ</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {WORD_DECKS.map(deck => (
-              <button
-                key={deck.id}
-                type="button"
-                onClick={() => setSelectedDeck(deck.id)}
-                className={`rounded-lg border-2 p-4 transition-all ${
-                  selectedDeck === deck.id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <div className="font-medium">{deck.name}</div>
-                <div className="text-sm text-gray-600">{deck.description}</div>
-                <div className="mt-2 text-xs text-gray-500">{deck.cardCount} words</div>
-              </button>
+          <select
+            value={selectedDeck}
+            onChange={e => setSelectedDeck(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            {allDecks.map(deck => (
+              <option key={deck.id} value={deck.id}>
+                {deck.name} ({deck.cardCount} words)
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
         <div>

@@ -22,23 +22,41 @@ export async function generateQuestionAction(
     const grammarUnit = getString(formData, 'grammarUnit')
     const questionCount = getNumber(formData, 'questionCount')
 
+    // ユーザーデッキの場合、フロントエンドから単語リストを受け取る
+    const deckWords = getString(formData, 'deckWords')
+    const deckName = getString(formData, 'deckName')
+
     if (!topic || !level || !questionCount) {
       return { error: '必須項目が不足しています' }
     }
 
+    // プリセットデッキの処理
     const selectedDeckData = WORD_DECKS.find(deck => deck.id === selectedDeck)
-    const deckWords =
-      selectedDeckData && selectedDeckData.id !== 'none'
-        ? selectedDeckData.cards.map(card => card.japanese).slice(0, 10)
-        : undefined
+
+    let finalDeckWords: string[] | undefined
+    let finalDeckName: string | undefined
+
+    if (selectedDeckData && selectedDeckData.id !== 'none') {
+      // プリセットデッキの場合
+      finalDeckWords = selectedDeckData.cards.map(card => card.japanese).slice(0, 10)
+      finalDeckName = selectedDeckData.name
+    } else if (deckWords && deckName) {
+      // ユーザーデッキの場合
+      try {
+        finalDeckWords = JSON.parse(deckWords)
+        finalDeckName = deckName
+      } catch (e) {
+        console.error('Failed to parse deck words:', e)
+      }
+    }
 
     const systemPrompt = createQuestionGenerationPrompt({
       topic,
       level,
       grammarUnit,
       count: questionCount,
-      deckName: selectedDeckData?.name,
-      deckWords,
+      deckName: finalDeckName,
+      deckWords: finalDeckWords,
     })
 
     const completion = await openai.chat.completions.create({

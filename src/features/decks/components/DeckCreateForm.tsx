@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/Button'
+import { deckStorage } from '@/utils/deckStorage'
 
 import type { WordDeck } from '@/types/deck'
 
@@ -49,13 +50,8 @@ export function DeckCreateForm() {
 
     setIsSubmitting(true)
     try {
-      // TODO: 実際の保存処理を実装
-      const newDeck: WordDeck = {
-        ...formData,
-        id: Date.now().toString(),
-        cardCount: 0,
-      }
-      console.log('Creating deck:', newDeck)
+      const newDeck = deckStorage.createDeck(formData.name, formData.description)
+      console.log('Deck created successfully:', newDeck)
 
       // 成功時の処理（一覧ページへリダイレクトなど）
       alert('デッキが作成されました！後で単語を追加できます。')

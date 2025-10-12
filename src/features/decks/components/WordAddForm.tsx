@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+import { deckStorage } from '@/utils/deckStorage'
+
 import { Button } from '@/components/ui/Button'
 
 import type { DeckCard } from '@/types/deck'
@@ -55,21 +57,24 @@ export function WordAddForm({ deckId }: WordAddFormProps) {
 
     setIsSubmitting(true)
     try {
-      // TODO: 実際の保存処理を実装
-      const newCard: DeckCard = {
-        ...formData,
-        id: Date.now().toString(),
+      // クライアントサイドで直接deckStorageを使用
+      const newCard = deckStorage.addCardToDeck(deckId, formData.japanese, formData.english)
+
+      if (newCard) {
+        // 成功時の処理
+        alert('単語が追加されました！')
+
+        // フォームをリセットして次の単語を追加できるようにする
+        setFormData({
+          japanese: '',
+          english: '',
+        })
+
+        // ページを再読み込みして更新された情報を反映
+        window.location.reload()
+      } else {
+        alert('デッキが見つかりません')
       }
-      console.log('Adding word to deck:', deckId, newCard)
-
-      // 成功時の処理
-      alert('単語が追加されました！')
-
-      // フォームをリセットして次の単語を追加できるようにする
-      setFormData({
-        japanese: '',
-        english: '',
-      })
     } catch (error) {
       console.error('Error adding word:', error)
       alert('単語の追加に失敗しました')
