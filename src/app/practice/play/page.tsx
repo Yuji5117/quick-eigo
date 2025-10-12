@@ -95,12 +95,14 @@ export default function PracticePlay() {
     <div className="flex flex-col gap-y-8 p-6">
       <ProgressBar total={progress.total} current={progress.current} />
       <QuestionText text={currentQuestion?.japanese || ''} />
-      <AnswerInput
-        value={currentAnswer}
-        onChange={setCurrentAnswer}
-        onSubmit={handleAnswerSubmit}
-        questionId={currentQuestion?.id}
-      />
+      {!feedback && (
+        <AnswerInput
+          value={currentAnswer}
+          onChange={setCurrentAnswer}
+          onSubmit={handleAnswerSubmit}
+          questionId={currentQuestion?.id}
+        />
+      )}
 
       {isGeneratingFeedback && (
         <div className="flex items-center justify-center p-8">
@@ -122,17 +124,19 @@ export default function PracticePlay() {
         />
       )}
 
-      {feedback ? (
-        <Button variant="primary" onClick={handleNextQuestion}>
-          {isLastQuestion ? '結果を確認する' : '次の問題へ'}
-        </Button>
-      ) : (
+      {!feedback && (
         <Button
           variant="primary"
           onClick={() => handleAnswerSubmit(currentAnswer)}
           disabled={!currentAnswer.trim() || isGeneratingFeedback}
         >
           添削を依頼
+        </Button>
+      )}
+
+      {feedback && (
+        <Button variant="primary" onClick={handleNextQuestion}>
+          {isLastQuestion ? '結果を確認する' : '次の問題へ'}
         </Button>
       )}
     </div>

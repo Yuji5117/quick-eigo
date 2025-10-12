@@ -63,18 +63,51 @@ export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
   }
 
   return (
-    <div className="bg-secondary flex flex-col gap-y-5 rounded-lg p-4">
+    <div className="bg-secondary flex flex-col gap-y-6 rounded-lg p-6 shadow-lg">
       <div className="flex flex-col gap-y-3">
-        <h3 className="text-lg font-semibold">あなたの解答</h3>
-        <p className="border-l-primary rounded-lg border-l-6 bg-white p-3 text-lg">{userAnswer}</p>
+        <h3 className="flex items-center gap-2 text-lg font-semibold text-blue-700">
+          <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+              clipRule="evenodd"
+            />
+          </svg>
+          あなたの解答
+        </h3>
+        <p className="rounded-lg border-l-6 border-l-blue-400 bg-blue-50 p-4 text-lg shadow-sm">
+          {userAnswer}
+        </p>
       </div>
       <div className="flex flex-col gap-y-3">
-        <h3 className="text-lg font-semibold">模範解答</h3>
-        <p className="border-l-primary rounded-lg border-l-6 bg-white p-3 text-lg">{modelAnswer}</p>
+        <h3 className="flex items-center gap-2 text-lg font-semibold text-green-700">
+          <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          模範解答
+        </h3>
+        <p className="rounded-lg border-l-6 border-l-green-400 bg-green-50 p-4 text-lg shadow-sm">
+          {modelAnswer}
+        </p>
       </div>
       <div className="flex flex-col gap-y-3">
-        <h3 className="text-lg font-semibold">アドバイス</h3>
-        <p className="rounded-lg bg-white p-3 text-lg">{advice}</p>
+        <h3 className="flex items-center gap-2 text-lg font-semibold text-yellow-700">
+          <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clipRule="evenodd"
+            />
+          </svg>
+          アドバイス
+        </h3>
+        <p className="rounded-lg border-l-4 border-l-yellow-400 bg-yellow-50 p-4 text-lg shadow-sm">
+          {advice}
+        </p>
       </div>
       <div className="flex justify-center pt-2">
         <Button
@@ -101,9 +134,21 @@ export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
 
       {showOtherExpression && otherExpressions.length > 0 && (
         <div className="flex flex-col gap-y-3">
-          <h3 className="text-lg font-semibold">他の表現</h3>
+          <h3 className="flex items-center gap-2 text-lg font-semibold text-purple-700">
+            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            他の表現
+          </h3>
           {otherExpressions.map((expression, index) => (
-            <p key={index} className="rounded-lg bg-white px-4 py-3 text-lg">
+            <p
+              key={index}
+              className="rounded-lg border-l-4 border-l-purple-400 bg-purple-50 px-4 py-3 text-lg shadow-sm"
+            >
               {expression}
             </p>
           ))}
