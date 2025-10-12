@@ -89,7 +89,10 @@ export default function DecksPage() {
                     Edit
                   </button>
 
-                  <button className="flex items-center gap-1 rounded-md bg-gray-100 px-3 py-2 text-sm text-gray-700 hover:bg-gray-200">
+                  <Link
+                    href={`/decks/${deck.id}/add-word`}
+                    className="flex items-center gap-1 rounded-md bg-gray-100 px-3 py-2 text-sm text-gray-700 hover:bg-gray-200"
+                  >
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
@@ -99,7 +102,7 @@ export default function DecksPage() {
                       />
                     </svg>
                     Add words
-                  </button>
+                  </Link>
                 </div>
 
                 <button className="flex items-center gap-1 rounded-md bg-red-50 px-3 py-2 text-sm text-red-600 hover:bg-red-100">
