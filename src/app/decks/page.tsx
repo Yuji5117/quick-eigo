@@ -90,9 +90,13 @@ export default function DecksPage() {
                 <div className="mb-4">
                   <div className="mb-2 flex items-center gap-2">
                     <h2 className="text-xl font-semibold text-gray-900">{deck.name}</h2>
-                    {isUserDeck && (
+                    {isUserDeck ? (
                       <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-600">
                         Custom
+                      </span>
+                    ) : (
+                      <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-600">
+                        Preset
                       </span>
                     )}
                   </div>
