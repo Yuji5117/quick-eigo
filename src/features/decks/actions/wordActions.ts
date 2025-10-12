@@ -2,6 +2,8 @@
 
 import { redirect } from 'next/navigation'
 
+import { deckStorage } from '@/utils/deckStorage'
+
 import type { DeckCard } from '@/types/deck'
 
 export type AddWordResult = {
@@ -30,11 +32,14 @@ export async function addWordToDeck(deckId: string, formData: FormData): Promise
   }
 
   try {
-    // TODO: 実際のデータベース保存処理を実装
-    const newCard: DeckCard = {
-      id: Date.now().toString(),
-      japanese: japanese.trim(),
-      english: english.trim(),
+    // ローカルストレージのデッキに単語を追加
+    const newCard = deckStorage.addCardToDeck(deckId, japanese, english)
+
+    if (!newCard) {
+      return {
+        success: false,
+        error: 'デッキが見つかりません',
+      }
     }
 
     console.log('Adding word to deck:', deckId, newCard)

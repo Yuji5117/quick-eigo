@@ -2,6 +2,8 @@
 
 import { redirect } from 'next/navigation'
 
+import { deckStorage } from '@/utils/deckStorage'
+
 import type { WordDeck } from '@/types/deck'
 
 export type CreateDeckResult = {
@@ -30,14 +32,8 @@ export async function createDeck(formData: FormData): Promise<CreateDeckResult> 
   }
 
   try {
-    // TODO: 実際のデータベース保存処理を実装
-    const newDeck: WordDeck = {
-      id: Date.now().toString(),
-      name: name.trim(),
-      description: description?.trim() || '',
-      cardCount: 0,
-      cards: [],
-    }
+    // ローカルストレージにデッキを保存
+    const newDeck = deckStorage.createDeck(name, description || '')
 
     console.log('Creating deck:', newDeck)
 

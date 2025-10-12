@@ -1,18 +1,35 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { WORD_DECKS } from '@/constants/wordDecks'
+import { deckStorage } from '@/utils/deckStorage'
+
+import type { WordDeck } from '@/types/deck'
 
 export default function DecksPage() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [userDecks, setUserDecks] = useState<WordDeck[]>([])
 
-  const filteredDecks = WORD_DECKS.filter(
+  useEffect(() => {
+    setUserDecks(deckStorage.getAllDecks())
+  }, [])
+
+  const handleDeleteDeck = (deckId: string) => {
+    if (confirm('このデッキを削除しますか？')) {
+      deckStorage.deleteDeck(deckId)
+      setUserDecks(deckStorage.getAllDecks())
+    }
+  }
+
+  const presetDecks = WORD_DECKS.filter(deck => deck.id !== 'none')
+  const allDecks = [...userDecks, ...presetDecks]
+
+  const filteredDecks = allDecks.filter(
     deck =>
-      deck.id !== 'none' &&
-      (deck.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        deck.description.toLowerCase().includes(searchQuery.toLowerCase())),
+      deck.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      deck.description.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
   return (
@@ -66,59 +83,87 @@ export default function DecksPage() {
         </div>
 
         <div className="space-y-4">
-          {filteredDecks.map(deck => (
-            <div key={deck.id} className="rounded-lg bg-white p-6 shadow-sm">
-              <div className="mb-4">
-                <div className="mb-2">
-                  <h2 className="text-xl font-semibold text-gray-900">{deck.name}</h2>
-                </div>
-                <p className="text-gray-600">{deck.cardCount} words</p>
-              </div>
-
-              <div className="flex items-center justify-between border-t pt-4">
-                <div className="flex gap-2">
-                  <button className="flex items-center gap-1 rounded-md bg-gray-100 px-3 py-2 text-sm text-gray-700 hover:bg-gray-200">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                      />
-                    </svg>
-                    Edit
-                  </button>
-
-                  <Link
-                    href={`/decks/${deck.id}/add-word`}
-                    className="flex items-center gap-1 rounded-md bg-gray-100 px-3 py-2 text-sm text-gray-700 hover:bg-gray-200"
-                  >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      />
-                    </svg>
-                    Add words
-                  </Link>
+          {filteredDecks.map(deck => {
+            const isUserDeck = userDecks.some(userDeck => userDeck.id === deck.id)
+            return (
+              <div key={deck.id} className="rounded-lg bg-white p-6 shadow-sm">
+                <div className="mb-4">
+                  <div className="mb-2 flex items-center gap-2">
+                    <h2 className="text-xl font-semibold text-gray-900">{deck.name}</h2>
+                    {isUserDeck && (
+                      <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-600">
+                        Custom
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-gray-600">{deck.cardCount} words</p>
                 </div>
 
-                <button className="flex items-center gap-1 rounded-md bg-red-50 px-3 py-2 text-sm text-red-600 hover:bg-red-100">
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                  Delete
-                </button>
+                <div className="flex items-center justify-between border-t pt-4">
+                  <div className="flex gap-2">
+                    <button className="flex items-center gap-1 rounded-md bg-gray-100 px-3 py-2 text-sm text-gray-700 hover:bg-gray-200">
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
+                      </svg>
+                      Edit
+                    </button>
+
+                    <Link
+                      href={`/decks/${deck.id}/add-word`}
+                      className="flex items-center gap-1 rounded-md bg-gray-100 px-3 py-2 text-sm text-gray-700 hover:bg-gray-200"
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        />
+                      </svg>
+                      Add words
+                    </Link>
+                  </div>
+
+                  {isUserDeck && (
+                    <button
+                      onClick={() => handleDeleteDeck(deck.id)}
+                      className="flex items-center gap-1 rounded-md bg-red-50 px-3 py-2 text-sm text-red-600 hover:bg-red-100"
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
