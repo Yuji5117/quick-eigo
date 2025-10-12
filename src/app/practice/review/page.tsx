@@ -148,18 +148,15 @@ export default function PracticeReview() {
         </div>
 
         {/* アクション */}
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <Button variant="primary" onClick={() => router.push('/')}>
-            新しい問題を作成する
-          </Button>
+        <div className="mt-8 flex justify-center">
           <Button
-            variant="secondary"
+            variant="primary"
             onClick={() => {
               sessionAnswers.clear()
               router.push('/')
             }}
           >
-            セッションをクリアして戻る
+            設定画面に戻る
           </Button>
         </div>
       </div>
