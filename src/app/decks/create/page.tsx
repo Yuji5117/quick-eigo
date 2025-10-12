@@ -1,6 +1,6 @@
 'use client'
 
-import { DeckCreateForm } from '@/components/forms/DeckCreateForm'
+import { DeckCreateForm } from '@/features/decks'
 
 export default function DeckCreatePage() {
   return (
