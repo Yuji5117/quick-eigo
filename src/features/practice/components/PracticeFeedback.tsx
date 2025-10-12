@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 
-import { Button } from '@/components/ui/Button'
 import { sessionAnswers } from '@/utils/sessionAnswers'
+
+import { Button } from '@/components/ui/Button'
 
 import { generateAlternativeExpressionsAction } from '../actions/generateAlternativeExpressions'
 
@@ -79,7 +80,7 @@ export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
         <Button
           onClick={handleShowOtherExpressions}
           disabled={isGeneratingExpressions}
-          className="w-fit px-6 py-3 text-sm font-medium bg-white !text-primary border border-primary hover:bg-primary hover:text-white transition-colors shadow-md"
+          className="!text-primary border-primary hover:bg-primary w-fit border bg-white px-6 py-3 text-sm font-medium shadow-md transition-colors hover:text-white"
         >
           {isGeneratingExpressions ? (
             <span className="flex items-center gap-2">
@@ -87,13 +88,9 @@ export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
               他の表現を生成中...
             </span>
           ) : showOtherExpression ? (
-            <span className="flex items-center gap-2">
-              ▲ 他の表現を隠す
-            </span>
+            <span className="flex items-center gap-2">▲ 他の表現を隠す</span>
           ) : (
-            <span className="flex items-center gap-2">
-              ▼ 他の表現を見る
-            </span>
+            <span className="flex items-center gap-2">▼ 他の表現を見る</span>
           )}
         </Button>
       </div>
