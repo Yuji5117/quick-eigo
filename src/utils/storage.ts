@@ -1,6 +1,9 @@
 type StorageType = 'localStorage' | 'sessionStorage'
 
-const getStorage = (type: StorageType): Storage => {
+const getStorage = (type: StorageType): Storage | null => {
+  if (typeof window === 'undefined') {
+    return null
+  }
   return type === 'localStorage' ? localStorage : sessionStorage
 }
 
@@ -9,6 +12,7 @@ export const createStorageUtils = (storageType: StorageType = 'localStorage') =>
 
   return {
     get<T>(key: string): T | null {
+      if (!storage) return null
       try {
         const item = storage.getItem(key)
         return item ? JSON.parse(item) : null
@@ -20,6 +24,7 @@ export const createStorageUtils = (storageType: StorageType = 'localStorage') =>
     },
 
     set<T>(key: string, value: T): boolean {
+      if (!storage) return false
       try {
         storage.setItem(key, JSON.stringify(value))
         return true
@@ -30,14 +35,17 @@ export const createStorageUtils = (storageType: StorageType = 'localStorage') =>
     },
 
     remove(key: string): void {
+      if (!storage) return
       storage.removeItem(key)
     },
 
     exists(key: string): boolean {
+      if (!storage) return false
       return storage.getItem(key) !== null
     },
 
     clear(): void {
+      if (!storage) return
       storage.clear()
     },
   }
