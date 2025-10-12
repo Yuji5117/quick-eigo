@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { Button } from '@/components/ui/Button'
 import { sessionAnswers } from '@/utils/sessionAnswers'
 
 import { generateAlternativeExpressionsAction } from '../actions/generateAlternativeExpressions'
@@ -75,17 +76,26 @@ export const PracticeFeedback: React.FC<PracticeFeedbackProps> = ({
         <p className="rounded-lg bg-white p-3 text-lg">{advice}</p>
       </div>
       <div className="flex justify-center pt-2">
-        <button
+        <Button
           onClick={handleShowOtherExpressions}
           disabled={isGeneratingExpressions}
-          className="bg-primary text-md w-fit rounded-full px-4 py-2 text-white disabled:cursor-not-allowed disabled:bg-gray-400"
+          className="w-fit px-6 py-3 text-sm font-medium bg-white !text-primary border border-primary hover:bg-primary hover:text-white transition-colors shadow-md"
         >
-          {isGeneratingExpressions
-            ? '生成中...'
-            : showOtherExpression
-              ? '他の表現を隠す'
-              : '他の表現を見る'}
-        </button>
+          {isGeneratingExpressions ? (
+            <span className="flex items-center gap-2">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+              他の表現を生成中...
+            </span>
+          ) : showOtherExpression ? (
+            <span className="flex items-center gap-2">
+              ▲ 他の表現を隠す
+            </span>
+          ) : (
+            <span className="flex items-center gap-2">
+              ▼ 他の表現を見る
+            </span>
+          )}
+        </Button>
       </div>
 
       {expressionsError && (
