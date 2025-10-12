@@ -36,7 +36,7 @@ export async function generateQuestionAction(
     let finalDeckWords: string[] | undefined
     let finalDeckName: string | undefined
 
-    if (selectedDeckData && selectedDeckData.id !== 'none') {
+    if (selectedDeckData) {
       // プリセットデッキの場合
       finalDeckWords = selectedDeckData.cards.map(card => card.japanese).slice(0, 10)
       finalDeckName = selectedDeckData.name

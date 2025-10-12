@@ -2,13 +2,6 @@ import type { WordDeck } from '@/types'
 
 export const WORD_DECKS: WordDeck[] = [
   {
-    id: 'none',
-    name: 'デッキなし',
-    description: '従来の方式で問題生成',
-    cardCount: 0,
-    cards: [],
-  },
-  {
     id: 'basic-vocabulary',
     name: 'Basic Vocabulary',
     description: '基礎英単語',

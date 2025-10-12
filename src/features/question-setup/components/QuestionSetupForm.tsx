@@ -17,7 +17,7 @@ export function QuestionSetupForm() {
   const router = useRouter()
   const [selectedTopic, setSelectedTopic] = useState<string>(TOPICS[0].value)
   const [selectedLevel, setSelectedLevel] = useState<string>(LEVELS[1].value)
-  const [selectedDeck, setSelectedDeck] = useState<string>(WORD_DECKS[0].id)
+  const [selectedDeck, setSelectedDeck] = useState<string>('basic-vocabulary')
   const [grammarUnit, setGrammarUnit] = useState('')
   const [questionCount, setQuestionCount] = useState(5)
   const [allDecks, setAllDecks] = useState<WordDeck[]>(WORD_DECKS)
