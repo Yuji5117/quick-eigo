@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { deckStorage } from '@/utils/deckStorage'
@@ -15,7 +14,6 @@ type DeckDetailViewProps = {
 }
 
 export function DeckDetailView({ deckId }: DeckDetailViewProps) {
-  const router = useRouter()
   const [deck, setDeck] = useState<WordDeck | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [editingCard, setEditingCard] = useState<DeckCard | null>(null)
