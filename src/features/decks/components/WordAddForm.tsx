@@ -61,8 +61,7 @@ export function WordAddForm({ deckId }: WordAddFormProps) {
       const newCard = deckStorage.addCardToDeck(deckId, formData.japanese, formData.english)
 
       if (newCard) {
-        // 成功時の処理
-        alert('単語が追加されました！')
+        // 成功時の処理 - アラートなしで単語を追加
 
         // フォームをリセットして次の単語を追加できるようにする
         setFormData({
@@ -73,11 +72,11 @@ export function WordAddForm({ deckId }: WordAddFormProps) {
         // ページを再読み込みして更新された情報を反映
         window.location.reload()
       } else {
-        alert('デッキが見つかりません')
+        console.error('デッキが見つかりません')
       }
     } catch (error) {
       console.error('Error adding word:', error)
-      alert('単語の追加に失敗しました')
+      console.error('単語の追加に失敗しました')
     } finally {
       setIsSubmitting(false)
     }
