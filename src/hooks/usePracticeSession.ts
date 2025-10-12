@@ -39,10 +39,6 @@ export function usePracticeSession() {
     }
   }
 
-  const skipQuestion = () => {
-    nextQuestion()
-  }
-
   const hasQuestions = questions.length > 0
   const isLastQuestion = currentIndex === questions.length - 1
 
@@ -55,6 +51,5 @@ export function usePracticeSession() {
     hasQuestions,
     isLastQuestion,
     nextQuestion,
-    skipQuestion,
   }
 }

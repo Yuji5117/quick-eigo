@@ -23,15 +23,8 @@ export default function PracticePlay() {
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false)
   const [feedbackError, setFeedbackError] = useState<string | null>(null)
 
-  const {
-    currentQuestion,
-    progress,
-    isLoaded,
-    hasQuestions,
-    isLastQuestion,
-    nextQuestion,
-    skipQuestion,
-  } = usePracticeSession()
+  const { currentQuestion, progress, isLoaded, hasQuestions, isLastQuestion, nextQuestion } =
+    usePracticeSession()
 
   useEffect(() => {
     if (isLoaded && hasQuestions && !sessionAnswers.isActive()) {
@@ -98,14 +91,6 @@ export default function PracticePlay() {
     }
   }
 
-  const handleSkipQuestion = () => {
-    if (isLastQuestion) {
-      router.push('/practice/review')
-    } else {
-      skipQuestion()
-    }
-  }
-
   return (
     <div className="flex flex-col gap-y-8 p-6">
       <ProgressBar total={progress.total} current={progress.current} />
@@ -150,10 +135,6 @@ export default function PracticePlay() {
           添削を依頼
         </Button>
       )}
-
-      <Button variant="secondary" onClick={handleSkipQuestion}>
-        スキップする
-      </Button>
     </div>
   )
 }
