@@ -55,11 +55,10 @@ export function DeckCreateForm() {
       console.log('Deck created successfully:', newDeck)
 
       // 成功時の処理（一覧ページへリダイレクトなど）
-      alert('デッキが作成されました！後で単語を追加できます。')
       router.push('/decks')
     } catch (error) {
       console.error('Error creating deck:', error)
-      alert('デッキの作成に失敗しました')
+      console.error('デッキの作成に失敗しました')
     } finally {
       setIsSubmitting(false)
     }
