@@ -72,6 +72,46 @@ export function QuestionSetupForm() {
         )}
 
         <div>
+          <h2 className="mb-4 text-xl font-semibold">単語デッキ</h2>
+          <select
+            value={selectedDeck}
+            onChange={e => setSelectedDeck(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            {allDecks.map(deck => (
+              <option key={deck.id} value={deck.id}>
+                {deck.name} ({deck.cardCount} words)
+              </option>
+            ))}
+          </select>
+
+          {/* 選択されたデッキの詳細情報 */}
+          {selectedDeckData && (
+            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <div className="mb-2 flex items-center justify-between">
+                <h3 className="font-semibold text-gray-900">{selectedDeckData.name}</h3>
+                {isUserDeck ? (
+                  <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-600">
+                    Custom
+                  </span>
+                ) : (
+                  <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600">
+                    Preset
+                  </span>
+                )}
+              </div>
+              <div className="mb-2 text-sm text-gray-600">
+                <span className="font-medium">{selectedDeckData.cardCount}</span>{' '}
+                単語が含まれています
+              </div>
+              {selectedDeckData.description && (
+                <p className="text-sm text-gray-600">{selectedDeckData.description}</p>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div>
           <h2 className="mb-4 text-xl font-semibold">トピック</h2>
           <div className="grid grid-cols-2 gap-4">
             {TOPICS.map(topic => (
@@ -119,43 +159,18 @@ export function QuestionSetupForm() {
         </div>
 
         <div>
-          <h2 className="mb-4 text-xl font-semibold">単語デッキ</h2>
+          <h2 className="mb-4 text-xl font-semibold">問題数</h2>
           <select
-            value={selectedDeck}
-            onChange={e => setSelectedDeck(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            value={questionCount}
+            onChange={e => setQuestionCount(Number(e.target.value))}
+            className="rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
-            {allDecks.map(deck => (
-              <option key={deck.id} value={deck.id}>
-                {deck.name} ({deck.cardCount} words)
+            {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
+              <option key={num} value={num}>
+                {num}問
               </option>
             ))}
           </select>
-
-          {/* 選択されたデッキの詳細情報 */}
-          {selectedDeckData && (
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="font-semibold text-gray-900">{selectedDeckData.name}</h3>
-                {isUserDeck ? (
-                  <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-600">
-                    Custom
-                  </span>
-                ) : (
-                  <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600">
-                    Preset
-                  </span>
-                )}
-              </div>
-              <div className="mb-2 text-sm text-gray-600">
-                <span className="font-medium">{selectedDeckData.cardCount}</span>{' '}
-                単語が含まれています
-              </div>
-              {selectedDeckData.description && (
-                <p className="text-sm text-gray-600">{selectedDeckData.description}</p>
-              )}
-            </div>
-          )}
         </div>
 
         <div>
@@ -169,21 +184,6 @@ export function QuestionSetupForm() {
             placeholder="例: 現在完了形、関係代名詞、仮定法など（空欄でも問題生成可能）"
             className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
-        </div>
-
-        <div>
-          <h2 className="mb-4 text-xl font-semibold">問題数</h2>
-          <select
-            value={questionCount}
-            onChange={e => setQuestionCount(Number(e.target.value))}
-            className="rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          >
-            {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
-              <option key={num} value={num}>
-                {num}問
-              </option>
-            ))}
-          </select>
         </div>
 
         {state.error && (
