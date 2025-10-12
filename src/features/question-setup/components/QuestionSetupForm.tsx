@@ -131,6 +131,31 @@ export function QuestionSetupForm() {
               </option>
             ))}
           </select>
+
+          {/* 選択されたデッキの詳細情報 */}
+          {selectedDeckData && (
+            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <div className="mb-2 flex items-center justify-between">
+                <h3 className="font-semibold text-gray-900">{selectedDeckData.name}</h3>
+                {isUserDeck ? (
+                  <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-600">
+                    Custom
+                  </span>
+                ) : (
+                  <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-600">
+                    Preset
+                  </span>
+                )}
+              </div>
+              <div className="mb-2 text-sm text-gray-600">
+                <span className="font-medium">{selectedDeckData.cardCount}</span>{' '}
+                単語が含まれています
+              </div>
+              {selectedDeckData.description && (
+                <p className="text-sm text-gray-600">{selectedDeckData.description}</p>
+              )}
+            </div>
+          )}
         </div>
 
         <div>
