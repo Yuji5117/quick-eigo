@@ -3,8 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import { Button } from '@/components/ui/Button'
 import { deckStorage } from '@/utils/deckStorage'
+
+import { Button } from '@/components/ui/Button'
 
 import type { WordDeck } from '@/types/deck'
 
