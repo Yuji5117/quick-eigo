@@ -89,9 +89,7 @@ export default function DecksPage() {
               <div key={deck.id} className="rounded-lg bg-white p-6 shadow-sm">
                 <div className="mb-4">
                   <div className="mb-2 flex items-center gap-2">
-                    <Link href={`/decks/${deck.id}`} className="hover:text-blue-600">
-                      <h2 className="text-xl font-semibold text-gray-900">{deck.name}</h2>
-                    </Link>
+                    <h2 className="text-xl font-semibold text-gray-900">{deck.name}</h2>
                     {isUserDeck && (
                       <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-600">
                         Custom
